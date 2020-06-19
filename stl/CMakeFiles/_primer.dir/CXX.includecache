@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/c_repo/cpp_prime/stl/src/_primer/_6_function.cc
+iostream
+-
+vector
+-
+stdexcept
+-
+cerrno
+-
+cstdlib
+-
+string
+-
+cstdlib
+-
+
+D:/c_repo/cpp_prime/stl/src/_primer/_7_class.cc
+iostream
+-
+string
+-
+vector
+-
+

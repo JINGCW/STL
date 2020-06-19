@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/c_repo/cpp_prime/main.cc
+stl/src/_primer/_7_class.h
+D:/c_repo/cpp_prime/stl/src/_primer/_7_class.h
+stl/src/_primer/_6_function.h
+D:/c_repo/cpp_prime/stl/src/_primer/_6_function.h
+
+D:/c_repo/cpp_prime/stl/src/_primer/_6_function.h
+
+D:/c_repo/cpp_prime/stl/src/_primer/_7_class.h
+iostream
+-
+
