@@ -171,6 +171,6 @@ Window_mgr::screen_idx Window_mgr::add_screen(const Screen &s) {
     return screens.size() - 1;
 }
 
-int main() {
-    return 0;
-}
+//int main() {
+//    return 0;
+//}

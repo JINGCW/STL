@@ -1,0 +1,8 @@
+#ifndef STANDARD_TEMPLATE_LIBRARIES__6_FUNCTION_H
+#define STANDARD_TEMPLATE_LIBRARIES__6_FUNCTION_H
+
+void print(const int[], size_t);
+
+void getter_test();
+
+#endif //STANDARD_TEMPLATE_LIBRARIES__6_FUNCTION_H

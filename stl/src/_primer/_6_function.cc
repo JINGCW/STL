@@ -97,12 +97,12 @@ void print(const int ia[],size_t size){
 #endif
 }
 
-int main() {
-//    cout << fact(5) << endl;
-//    getter_test();
-    const int ia[] = {1, 2, 3};
-
-    print(ia,3);
-//    EXIT_SUCCESS
-    return 0;
-}
+//int main() {
+////    cout << fact(5) << endl;
+////    getter_test();
+//    const int ia[] = {1, 2, 3};
+//
+//    print(ia,3);
+////    EXIT_SUCCESS
+//    return 0;
+//}
