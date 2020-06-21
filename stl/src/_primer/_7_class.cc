@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdbool>
 
 using namespace std;
 
@@ -13,14 +14,28 @@ class Sales_data {
 
 //    friend Sales_data &combine(const Sales_data &);
 public:
-    Sales_data() = default;
+//    Sales_data() = default;
+    Sales_data() : Sales_data("", 0, 0) {
 
-    Sales_data(const string &s) : bookNo(s) {}
+    }
 
-    Sales_data(const string &s, unsigned n, double p) :
-            bookNo(s), units_sold(n), revenue(p * n) {}
+//    Sales_data(const string &s = "") : bookNo(s) {}
+    explicit Sales_data(const string &s) : Sales_data(s, 0, 0) {
 
-    Sales_data(istream &);
+    }
+
+//    Sales_data(const string &s, unsigned n, double p) :
+//            bookNo(s), units_sold(n), revenue(p * n) {}
+    Sales_data(const string &s, unsigned n, double p) {
+        bookNo = s;
+        units_sold = n;
+        revenue = n * p;
+    }//another way
+
+//    explicit Sales_data(istream &);
+    explicit Sales_data(istream &is) : Sales_data() {
+        read(is, *this);
+    }
 
     string isbn() const;
 
@@ -57,9 +72,9 @@ istream &read(istream &is, Sales_data &item) {
     return is;
 }
 
-Sales_data::Sales_data(istream &is) {
-    read(is, *this);
-}
+//Sales_data::Sales_data(istream &is) {
+//    read(is, *this);
+//}
 
 ostream &print(ostream &os, Sales_data &item) {
     os << item.isbn() << " " << item.units_sold << " "
@@ -170,6 +185,55 @@ Window_mgr::screen_idx Window_mgr::add_screen(const Screen &s) {
     screens.push_back(s);
     return screens.size() - 1;
 }
+
+//constexpr constructor
+class Debug {
+public:
+    constexpr Debug(bool b = true) : hw(b), io(b), other(b) {}
+
+    constexpr Debug(bool h, bool i, bool o) : hw(h), io(i), other(o) {}
+
+    constexpr bool any() { return hw || io || other; }
+
+    void set_hw(bool b) { hw = b; }
+
+    void set_other(bool b) { other = b; }
+
+    void set_io(bool b) { io = b; }
+
+private:
+    bool hw;
+    bool io;
+    bool other;
+};
+
+class Account {
+public:
+    void calculate() { amount = amount * interest_rate; }
+
+    static double rate() { return interest_rate; }
+
+    static void rate(double);
+
+private:
+    string owner;
+    double amount;
+
+    static double interest_rate;
+
+    static double init_rate();
+
+    static constexpr int period = 30;//inner initialize.
+    double daily_tbl[period];
+};
+
+void Account::rate(double new_rate) {
+    interest_rate = new_rate;
+}
+
+//define and init static member
+double Account::interest_rate = init_rate();
+constexpr int Account::period;//define
 
 //int main() {
 //    return 0;
