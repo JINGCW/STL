@@ -235,6 +235,8 @@ void Account::rate(double new_rate) {
 double Account::interest_rate = init_rate();
 constexpr int Account::period;//define
 
-//int main() {
-//    return 0;
-//}
+#ifdef RUN_MAIN
+int main() {
+    return 0;
+}
+#endif

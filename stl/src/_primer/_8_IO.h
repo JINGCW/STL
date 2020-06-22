@@ -11,4 +11,6 @@ struct person_info{
     vector<string> phones;
 };
 
+void save_person_info();
+
 #endif //STANDARD_TEMPLATE_LIBRARIES__8_IO_H

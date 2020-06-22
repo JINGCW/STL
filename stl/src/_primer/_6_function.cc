@@ -74,21 +74,21 @@ arrT *func(int i);
 int odd[] = {1, 3, 5, 7, 9};
 int even[] = {0, 2, 4, 6, 8};
 
-decltype(odd) *arr_ptr(int i){
+decltype(odd) *arr_ptr(int i) {
     return (i % 2) ? &odd : &even;//return ptr point to array
 }
 
-inline const string &short_string(const string &s1, const string &s2){
+inline const string &short_string(const string &s1, const string &s2) {
     return s1.size() <= s2.size() ? s1 : s2;
 }
 
-inline string &short_string(string &s1,string& s2){
+inline string &short_string(string &s1, string &s2) {
     auto &r = short_string(const_cast<const string &>(s1),
                            const_cast<const string &>(s2));
     return const_cast<string &>(r);
 }
 
-void print(const int ia[],size_t size){
+void print(const int ia[], size_t size) {
 #ifndef NDEBUG/*if NDEBUG not define, execute code block between #ifndef and #endif*/
     /*__func__ is compiler defined local static var, store function name*/
     cerr << __func__ << ": array size is " << size
@@ -97,12 +97,14 @@ void print(const int ia[],size_t size){
 #endif
 }
 
-//int main() {
-////    cout << fact(5) << endl;
-////    getter_test();
-//    const int ia[] = {1, 2, 3};
-//
-//    print(ia,3);
-////    EXIT_SUCCESS
-//    return 0;
-//}
+#ifdef RUN_MAIN
+int main() {
+//    cout << fact(5) << endl;
+//    getter_test();
+    const int ia[] = {1, 2, 3};
+
+    print(ia,3);
+//    EXIT_SUCCESS
+    return 0;
+}
+#endif
