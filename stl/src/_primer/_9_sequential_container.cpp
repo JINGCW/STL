@@ -5,6 +5,7 @@
 #include <vector>
 #include <forward_list>
 #include <iostream>
+#include <stack>
 #include "_9_sequential_container.h"
 
 using namespace std;
@@ -54,4 +55,8 @@ void string_find(){
     string name("AnnaBelle");
     auto pos = name.find("Anna");
     cout << pos << endl;
+}
+
+void adapter(){
+    stack<string, vector<string >> stk;
 }
