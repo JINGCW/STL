@@ -49,3 +49,9 @@ void change_container() {
         cout << e << endl;
     }
 }
+
+void string_find(){
+    string name("AnnaBelle");
+    auto pos = name.find("Anna");
+    cout << pos << endl;
+}
