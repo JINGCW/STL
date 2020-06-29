@@ -36,7 +36,16 @@ protected:
 class
 Bulk_quote : public Quote
 {
-    virtual double net_price(size_t) const override;
+public:
+    Bulk_quote() = default;
+
+    Bulk_quote(const string &, double, size_t, double);
+
+    double net_price(size_t) const override;//virtual limit is not a must.
+
+private:
+    size_t min_qty = 0;
+    double discount = 0.0;
 };
 
 #endif //STANDARD_TEMPLATE_LIBRARIES__15_OOP_H
