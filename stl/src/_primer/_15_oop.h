@@ -39,7 +39,9 @@ Bulk_quote : public Quote
 public:
     Bulk_quote() = default;
 
-    Bulk_quote(const string &, double, size_t, double);
+    Bulk_quote(const string &s, double p, size_t qty, double disc) :
+            Quote(s, p), min_qty(qty), discount(disc)
+    {};
 
     double net_price(size_t) const override;//virtual limit is not a must.
 
