@@ -43,7 +43,7 @@ public:
 
     LikePointer &operator=(const LikePointer &);
 
-    LikePointer &operator=(LikePointer);
+//    LikePointer &operator=(LikePointer);
 
     ~LikePointer();
 
@@ -93,7 +93,7 @@ public:
     _Str_vector(_Str_vector &&) noexcept;
 
     _Str_vector &operator=(const _Str_vector &);
-    _Str_vector &operator=(const _Str_vector &&)noexcept ;
+    _Str_vector &operator=(_Str_vector &&)noexcept ;
 
     ~_Str_vector();
 

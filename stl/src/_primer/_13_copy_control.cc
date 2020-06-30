@@ -32,11 +32,11 @@ LikePointer &LikePointer::operator=(const LikePointer &rhs)
     return *this;
 }
 
-LikePointer &LikePointer::operator=(LikePointer rhs)
-{
-    swap(*this, rhs);
-    return *this;
-}
+//LikePointer &LikePointer::operator=(LikePointer rhs)
+//{
+//    swap(*this, rhs);
+//    return *this;
+//}
 
 void _Str_vector::push_back(const string &s)
 {
@@ -102,7 +102,7 @@ _Str_vector::_Str_vector(_Str_vector &&s) noexcept:
     s.elements = s.first_free = s.cap = nullptr;
 }
 
-_Str_vector &_Str_vector::operator=(const _Str_vector &&rhs)noexcept
+_Str_vector &_Str_vector::operator=(_Str_vector &&rhs)noexcept
 {
     if (this != &rhs)
     {

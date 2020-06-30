@@ -101,6 +101,8 @@ public:
             sought(s), lines(p), file(f)
     {}
 
+    shared_ptr<string>get_file();
+
 private:
     string sought;
     shared_ptr<set<line_no >> lines;//line number
