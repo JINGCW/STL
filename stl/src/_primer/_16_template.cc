@@ -25,7 +25,7 @@ T & Blob<T>::operator[](size_type i)
     check(i, "subscript out of range");
     return (*data)[i];
 }
-
+template <typename T>
 bool operator==(const Blob<T> &, const Blob<T> &)
 {
     return false;

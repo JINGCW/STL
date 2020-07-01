@@ -5,6 +5,11 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <type_traits>
+#include <utility>
+
+#include "_7_class.h"
+
 
 using namespace std;
 
@@ -80,14 +85,60 @@ class
 Debug_delete
 {
 public:
-    Debug_delete(ostream&s=cerr):os(s){}
-    template<typename T>void operator()(T*p){
+    Debug_delete(ostream &s = cerr) : os(s)
+    {}
+
+    template<typename T>
+    void operator()(T *p)
+    {
         os << "deleting unique_ptr" << endl;
         delete p;
     }
+
 private:
     ostream &os;
 };
+
+template<typename It>
+//auto fcn(It beg, It end) -> remove_reference_t<decltype(*beg)>
+auto fcn(It beg, It end) -> typename remove_reference<decltype(*beg)>::type
+{
+
+    return *beg;
+}
+
+template<typename T>
+ostream &print(ostream &os, const T &t)
+{
+    return os << t;
+}
+
+template<typename T, typename ...Args>
+ostream &print(ostream &os, const T &t, const Args &...rest)
+{
+    os << t << ", ";
+    print(os, rest...);
+}
+
+namespace std
+{
+    template<>
+    struct hash<Sales_data>
+    {
+        using result_type=size_t;
+        using argument_type=Sales_data;
+
+        size_t operator()(const Sales_data &s) const;
+    };
+
+    size_t hash<Sales_data>::operator()(const Sales_data &s) const
+    {
+        remove_reference
+        return hash<string>(s.bookNo) ^
+               hash<unsigned>(s.units_sold) ^
+               hash<double>(s.revenue);
+    }
+}
 
 
 #endif //STANDARD_TEMPLATE_LIBRARIES__16_TEMPLATE_H
