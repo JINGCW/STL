@@ -12,6 +12,7 @@
 
 
 using namespace std;
+//extern class Sales_data;
 
 template<typename T>
 int compare(const T &left, const T &right)
@@ -133,10 +134,9 @@ namespace std
 
     size_t hash<Sales_data>::operator()(const Sales_data &s) const
     {
-        remove_reference
-        return hash<string>(s.bookNo) ^
-               hash<unsigned>(s.units_sold) ^
-               hash<double>(s.revenue);
+        return hash<string>()(s.bookNo) ^
+               hash<unsigned>()(s.units_sold) ^
+               hash<double>()(s.revenue);
     }
 }
 
