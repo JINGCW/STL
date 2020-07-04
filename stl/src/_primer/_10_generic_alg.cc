@@ -62,30 +62,30 @@ void biggies(vector<string> &words, vector<string>::size_type sz, ostream &os = 
     os << endl;
 }
 
-void func()
-{
-    size_t v1 = 42;
-    auto f = [v1]()mutable { return ++v1; };
-    v1 = 0;
-    cout << f() << endl;//43
-}
-
-void func2()
-{
-    size_t v1 = 42;
-    auto f = [&v1] { return ++v1; };
-    v1 = 0;
-    cout << f();//1
-}
-
-void func3(vector<int> &vi)
-{
-    transform(vi.begin(), vi.end(), vi.begin(),
-              [](int i) { return i < 0 ? -i : i; });
-    //
-    transform(vi.begin(), vi.end(), vi.begin(),
-              [](int i) -> int { if (i < 0)return -i; else return i; });
-}
+//void func()
+//{
+//    size_t v1 = 42;
+//    auto f = [v1]()mutable { return ++v1; };
+//    v1 = 0;
+//    cout << f() << endl;//43
+//}
+//
+//void func2()
+//{
+//    size_t v1 = 42;
+//    auto f = [&v1] { return ++v1; };
+//    v1 = 0;
+//    cout << f();//1
+//}
+//
+//void func3(vector<int> &vi)
+//{
+//    transform(vi.begin(), vi.end(), vi.begin(),
+//              [](int i) { return i < 0 ? -i : i; });
+//    //
+//    transform(vi.begin(), vi.end(), vi.begin(),
+//              [](int i) -> int { if (i < 0)return -i; else return i; });
+//}
 
 bool check_size(const string &s, string::size_type sz)
 {

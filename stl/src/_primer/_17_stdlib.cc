@@ -5,6 +5,62 @@
 //using namespace std;
 
 //static auto _files=new(vector<vector<Sales_data>>);
+//template<typename T>
+bool valid(const smatch &t)
+{
+    if (t[1].matched)
+        return t[3].matched && (t[4].matched == 0 || t[4].str() == " ");
+    return !t[3].matched && t[4].str() == t[6].str();
+}
+
+void regex_match(const string &text)
+{
+    string pattern("[^c]ei");
+    pattern = "[[:alpha:]]*" + pattern + "[[:alpha:]]*";
+    regex r(pattern);
+    smatch out;
+
+    if (regex_search(text, out, r))
+        cout << out.str() << "\n-----------------" << endl;
+
+//    regex r2("[[:alnum:]]+\\.(cpp|cc|cxx)$", regex::icase);
+    regex r2("([[:alnum:]]+)\\.(cpp|cc|cxx)$", regex::icase);
+    cmatch out2;
+    if (regex_search("myfile.cc", out2, r2))
+        cout << out2.str() << "\n-----------------" << endl;
+
+
+    for (sregex_iterator it(text.begin(), text.end(), r), end_it;
+         it != end_it; ++it)
+    {
+        auto pos = it->prefix().length();
+        cout << "length of prefix is :" << pos << endl;
+        pos = pos > 40 ? pos - 40 : 0;
+        cout << it->prefix().str().substr(pos)
+             << "\n\t\t>>> " << it->str() << " <<<\n"
+             << it->suffix().str().substr(0, 40)
+             << endl;
+//        cout << it->str() << "\n-----------------" << endl;
+        cout << "input phone number you want to searching ..." << endl;
+
+        string phone = "(\\()?(\\d{3})(\\))?([-. ])?(\\d{3})([-. ])?(\\d{4})";
+        regex r_phone(phone);
+        smatch m_phone;
+        string s_phone;
+        //replace
+        string fmt = "$2.$5.$7";//ddd.ddd.dddd
+        string ex_phone_number = "(908) 555-1800";
+        cout << regex_replace(ex_phone_number, r_phone, fmt) << endl;
+        //replace
+        while (getline(cin, s_phone))
+        {
+            for (sregex_iterator it(s_phone.begin(), s_phone.end(), r_phone), end_it;
+                 it != end_it; ++it)
+                if (valid(*it))
+                    cout << "phone matching :" << it->str() << endl;
+        }
+    }
+}
 
 
 vector<vector<Sales_data>> *_read_files_from_txt(const string &path)
@@ -33,7 +89,7 @@ vector<vector<Sales_data>> *_read_files_from_txt(const string &path)
 
 //            cout << "///////////////////" << item << endl;
 
-            _file->push_back(Sales_data(isbn,number,price));
+            _file->push_back(Sales_data(isbn, number, price));
 //            for (const auto &e:*_file)
 //            {
 //                cout << "&&&&&&&&&&&&&&&&&" << e << endl;

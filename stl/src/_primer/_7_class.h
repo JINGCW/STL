@@ -7,9 +7,8 @@
 
 using namespace std;
 
-template<class T>
-class std::hash;
-
+//template<class T>class std::hash;
+template<class T>class hash;
 class Sales_data
 {
     friend bool operator==(const Sales_data &lhs, const Sales_data &rhs);

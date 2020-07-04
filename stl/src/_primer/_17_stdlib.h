@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <sstream>
 #include <memory>
+#include <regex>
 
 #include "_7_class.h"
 
@@ -57,10 +58,10 @@ vector<matches> find_book(const vector<vector<Sales_data>> &files,
 void print_search_out(istream &in, ostream &os, const vector<vector<Sales_data>> &files);
 
 //_stdlib_begin
-_bitset_begin
-    bitset<32> bitvec(1U);
-    bitset<128> bitvec3(~0ULL);
-_bitset_end
+//_bitset_begin
+//    bitset<32> bitvec(1U);
+//    bitset<128> bitvec3(~0ULL);
+//_bitset_end
 
 //_stdlib_end
 //void _read_files_from_txt(const string &path);
@@ -70,5 +71,7 @@ vector<vector<Sales_data>> *_read_files_from_txt(const string &path);
 //static auto _files=new(vector<vector<Sales_data>>);
 //vector<vector<Sales_data>>*_files;
 static auto _files = new(vector<vector<Sales_data>>);
+
+void regex_match(const string &text= "receipt freind theif receive");
 
 #endif //STANDARD_TEMPLATE_LIBRARIES__17_STDLIB_H
