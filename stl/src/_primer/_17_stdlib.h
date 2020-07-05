@@ -15,6 +15,7 @@
 #include <sstream>
 #include <memory>
 #include <regex>
+#include <random>
 
 #include "_7_class.h"
 

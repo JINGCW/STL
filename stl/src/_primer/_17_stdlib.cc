@@ -4,6 +4,59 @@
 
 //using namespace std;
 
+void io_stream_operate()
+{
+    fstream in_out("io_stream.txt", fstream::ate | fstream::in | fstream::out);
+    if (!in_out)
+    {
+        cerr << "unable to open file!" << endl;
+        return;
+        EXIT_FAILURE;
+    }
+    auto end_mark = in_out.tellg();
+    in_out.seekg(0, fstream::beg);
+    std::size_t count;
+    string line;
+    while (in_out && in_out.tellg() != end_mark && getline(in_out, line))
+    {
+        count += line.size() + 1;
+        auto mark = in_out.tellg();
+        in_out.seekp(0, fstream::end);
+        in_out << count;
+        if (mark != end_mark)in_out << " ";
+        in_out.seekg(mark);
+    }
+    in_out.seekp(0, fstream::end);
+    in_out << "\n";
+}
+
+void print_normal_random()
+{
+    default_random_engine engine;
+    normal_distribution<> dist(4, 1.5);
+    vector<unsigned> vals(9);
+    for (std::size_t i = 0; i != 200; ++i)
+    {
+        unsigned v = lround(dist(engine));
+        if (v < vals.size())
+            ++vals[v];
+    }
+    for (std::size_t j = 0; j != vals.size(); ++j)
+        cout << j << ": " << string(vals[j], '*') << endl;
+}
+
+vector<unsigned> gen_good_random_vec()
+{
+    static default_random_engine engine;
+    static uniform_int_distribution<unsigned> dist(0, 9);
+    vector<unsigned> out;
+
+    for (size_t i = 0; i < 100; ++i)
+        out.push_back(dist(engine));
+
+    return out;
+}
+
 //static auto _files=new(vector<vector<Sales_data>>);
 //template<typename T>
 bool valid(const smatch &t)
