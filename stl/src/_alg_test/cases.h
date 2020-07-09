@@ -7,6 +7,11 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <numeric>
+#include <iomanip>
+#include <regex>
+#include <numeric>
+#include <math.h>
 
 using namespace std;
 

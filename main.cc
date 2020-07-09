@@ -154,41 +154,60 @@
 //    return 0;
 //}
 
-#include<iomanip>//setprecision
+//#include<iomanip>//setprecision
 #include<iostream>
 #include<string>
 //#include<iterator>
-#include <utility>
+//#include <utility>
 #include <vector>
-#include <set>
-#include <memory>
-#include <algorithm>
-#include <stack>
+//#include <set>
+//#include <memory>
+//#include <algorithm>
+//#include <stack>
 #include <map>
+//#include <numeric>
+//#include <regex>
+#include <math.h>
 
 using namespace std;
 
+//static map<string, int> _map;
+
+int n_m_steps(int n, int m)
+{
+    if (n == 0 | m == 0)
+        return 1;
+
+    return n_m_steps(n - 1, m) + n_m_steps(n, m - 1);
+}
+
 int main(int argc, char **argv)
 {
-    int arr_len,element,flag;
-
-    while (cin>>arr_len)
+    string
+    string manaStr = "$#";
+    for (int i = 0; i < s.size(); i++) //首先构造出新的字符串
     {
-        vector<int>_vec;
-        while (arr_len--)
-        {
-            cin >> element;
-            _vec.push_back(element);
-        }
-        cin >> flag;
-        stable_sort(_vec.begin(), _vec.end());
-        if (flag==1)
-            reverse(_vec.begin(), _vec.end());
-        for(const auto&elem:_vec)
-            cout << elem<<' ';
-        cout << endl;
-        _vec.clear();
+        manaStr += s[i];
+        manaStr += '#';
     }
-
-    return 0;
+    vector<int> rd(manaStr.size(), 0);//用一个辅助数组来记录最大的回文串长度，注意这里记录的是新串的长度，原串的长度要减去1
+    int pos = 0, mx = 0;
+    int start = 0, maxLen = 0;
+    for (int i = 1; i < manaStr.size(); i++)
+    {
+        rd[i] = i < mx ? min(rd[2 * pos - i], mx - i) : 1;
+        while (i + rd[i] < manaStr.size() && i - rd[i] > 0 &&
+               manaStr[i + rd[i]] == manaStr[i - rd[i]])//这里要注意数组越界的判断，源代码没有注意，release下没有报错
+            rd[i]++;
+        if (i + rd[i] > mx) //如果新计算的最右侧端点大于mx,则更新pos和mx
+        {
+            pos = i;
+            mx = i + rd[i];
+        }
+        if (rd[i] - 1 > maxLen)
+        {
+            start = (i - rd[i]) / 2;
+            maxLen = rd[i] - 1;
+        }
+    }
 }
