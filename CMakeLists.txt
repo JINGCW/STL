@@ -29,7 +29,7 @@ project(standard_template_libraries LANGUAGES CXX)
 #lookup all source file save name to DIR_SRCS in pwd
 aux_source_directory(. DIR_SRCS)
 #add subdir
-add_subdirectory(stl)
+#add_subdirectory(stl)
 #specify generate obj
 #set(INC_DIR D:/c_repo/cpp_prime/bin)
 #set(LINK_DIR D:/c_repo/cpp_prime/include)

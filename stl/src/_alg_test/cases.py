@@ -2,21 +2,87 @@ import sys
 import itertools
 import string
 
+#计算字符串相似度
+def editDistance(str1, str2):
+    len1, len2 = len(str1) + 1, len(str2) + 1
+    dp = [[0 for i in range(len2)] for j in range(len1)]
+    for i in range(len1):
+        dp[i][0] = i
+    for j in range(len2):
+        dp[0][j] = j
+    for i in range(1, len1):
+        for j in range(1, len2):
+            dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (str1[i - 1] != str2[j - 1]))
+    return dp[-1][-1]
 
-#最大连续bit数
+
 while True:
     try:
-        s=bin(int(input()))[2:]
-        s=s.split('0')
-        cnt=0
+        print("1/" + str(editDistance(input(), input()) + 1))
+    except:
+        break
+#整型数组合并
+while True:
+    try:
+        n1,s1,n2,s2=input(),list(map(int,input().split())),input(),list(map(int,input().split()))
+        print("".join(list(map(str,sorted(list(set(s1+s2)))))))
+    except:
+        break
+#字符串匹配
+while True:
+    try:
+        a,b=set(input()),set(input())
+        print ("true" if a&b==a else "false")
+    except:
+        break
+
+# 统计大写字母个数
+while True:
+    try:
+        s = list(input())
+        print(sum([1 if str.isupper(x) else 0 for x in s]))
+    except:
+        break
+
+
+# 最长回文
+def fake_manacher(s: str):
+    if s == s[::-1]:
+        return len(s)
+
+    max_len = 0
+    for i in range(len(s)):
+        if i - max_len >= 1 and s[i - max_len - 1:i + 1] == s[i - max_len - 1:i + 1][::-1]:
+            max_len += 2
+        if i - max_len >= 0 and s[i - max_len:i + 1] == s[i - max_len:i + 1][::-1]:
+            max_len += 1
+
+    return max_len
+
+
+while True:
+    try:
+        out = fake_manacher(input())
+        if out:
+            print(out)
+    except:
+        break
+
+# 最大连续bit数
+while True:
+    try:
+        s = bin(int(input()))[2:]
+        s = s.split('0')
+        cnt = 0
         for x in s:
             if x:
-                if len(x)>cnt:
-                    cnt=len(x)
+                if len(x) > cnt:
+                    cnt = len(x)
         print(cnt)
         continue
     except:
         break
+
 
 # import decimal
 
@@ -88,17 +154,17 @@ while True:
         s = list(input())
         scores = check_length(s)
         scores += check_digit_punctuation_char(s)
-        if scores>=90:
+        if scores >= 90:
             print("VERY_SECURE")
-        elif scores>=80:
+        elif scores >= 80:
             print("SECURE")
-        elif scores>=70:
+        elif scores >= 70:
             print("VERY_STRONG")
-        elif scores>=60:
+        elif scores >= 60:
             print("STRONG")
-        elif scores>=50:
+        elif scores >= 50:
             print("AVERAGE")
-        elif scores>=25:
+        elif scores >= 25:
             print("WEAK")
         else:
             print("VERY_WEAK")

@@ -1,5 +1,61 @@
 #include "cases.h"
 
+//真分数分解为埃及分数
+void real_fraction_to_egpy_fraction()
+{
+    int b;//分母
+    int a; //分子
+    char ch;
+    while (cin >> a >> ch >> b)
+    {
+        while (a != 1)
+        {
+            //分子分母有公因子
+            if (b % a == 0)
+            {
+                b = b / a;
+                break;
+            }
+
+            if (b % (a - 1) == 0)  //不加这个，无法得出案例结果
+            {
+                cout << "1/" << b / (a - 1) << "+";
+                break;
+            }
+            int q, r;//q是b/a的商，r是余数
+            q = b / a;
+            r = b % a;
+            cout << "1/" << q + 1 << "+";
+            a = a - r;
+            b = (q + 1) * b;
+        }
+        cout << "1/" << b << endl;
+    }
+}
+
+//二维数组操作
+void arr_2d_operate()
+{
+    int r, c, r1, c1, r2, c2, ri, ci, rt, ct;
+    while (cin >> r >> c >> r1 >> c1 >> r2 >> c2 >> ri >> ci >> rt >> ct)
+    {
+        if (r > 9 || c > 9) cout << "-1" << endl;
+        else cout << "0" << endl;
+
+        if (r1 >= 0 && r1 < r && c1 >= 0 && c1 < c && r2 >= 0 && r2 < r && c2 >= 0 && c2 < c) cout << "0" << endl;
+        else cout << "-1" << endl;
+
+        if (ri >= 0 && ri < r) cout << "0" << endl;
+        else cout << "-1" << endl;
+
+        if (ci >= 0 && ci < c) cout << "0" << endl;
+        else cout << "-1" << endl;
+
+        if (rt >= 0 && rt < r && ct >= 0 && ct < c) cout << "0" << endl;
+        else cout << "-1" << endl;
+    }
+}
+
 //最长回文
 string longestPalindrome(string s)
 {
