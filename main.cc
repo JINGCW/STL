@@ -5,6 +5,7 @@
 //
 #include <iostream>
 #include <string>
+
 //
 ////#include "stl/src/_primer/_7_class.h"
 ////#include "stl/src/_primer/_6_function.h"
@@ -34,7 +35,8 @@
 //}
 //
 //
-//using namespace std;
+using namespace std;
+
 //
 ////extern vector<vector<Sales_data>> _files;
 ////extern vector<Sales_data> _file;
@@ -148,7 +150,7 @@ int main(int argc, char **argv)
 //            game_over5 +
 //            game_over_tail
 //         << endl;
-    int out = min_multiplier(1, 7);
+//    int out = min_multiplier(1, 7);
 //    static_assert(out==7,"yes");
     cout << "hello world" << endl;
     return 0;
