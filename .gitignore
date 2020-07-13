@@ -11,3 +11,5 @@ __pycache__/
 /cmake-build-debug-visual-studio/
 /bin/
 /lib/
+_main.cc
+/stl/src/_alg_test/

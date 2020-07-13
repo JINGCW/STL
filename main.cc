@@ -3,8 +3,8 @@
 ////#pragma once
 ////#pragma comment(lib, "_primer.dll")
 //
-//#include <iostream>
-//#include <string>
+#include <iostream>
+#include <string>
 //
 ////#include "stl/src/_primer/_7_class.h"
 ////#include "stl/src/_primer/_6_function.h"
@@ -102,86 +102,54 @@
 //static const string game_over5 = "    ■■■          ■          ■■■■      ■  ■    \n";
 //static const string game_over_tail = "                                                        ";
 //
-//int main(int argc, char **argv)
-//{
-////    stores_sales_search();
-////    cout << "******************"<<
-////    Math::add(3, 5) << endl;
-////    mini_text_query();
-////    stores_sales_search();
-////    regex_match();
-////    getter_test();
-////    change_container();
-////    vector<string> input = reinterpret_cast<const vector<basic_string<char>> &>(argv);
-////for(const auto &e:static_cast<vector<string >>(argv))
-////    string file_path;
-////    while(argv>>file_path)
-//
-////    if (size(*++argv)!=0)
-////    {
-////    cout << static_cast<string>(*++argv) << endl;
-////    const string file_path(static_cast<string>(argv[1]));
-////    } else
-////        file_path = "test.txt";
-//
-////    ifstream file("test.txt");
-////    cout << file_path << endl;
-////    ifstream file(file_path);
-////    TextQuery tq(file);
-////    string input;
-////    cout << "Welcome to Mini TextQuery Program!\n"
-////         << "-------------------------------\n"
-////         << "You can enter the word you want to search...."
-////         << endl;
-////    while (cin >> input)
-////    {
-////        if (input == "exit")
-////            break;
-////        print(cout, tq.query(input));
-////    }
-////    save_person_info();
-////    cout << game_over_head +
-////            game_over1 +
-////            game_over2 +
-////            game_over3 +
-////            game_over4 +
-////            game_over5 +
-////            game_over_tail
-////         << endl;
-//    int out = min_multiplier(1, 7);
-////    static_assert(out==7,"yes");
-//    cout << "hello world" << endl;
-//    return 0;
-//}
-
-//#include<iomanip>//setprecision
-#include<iostream>
-#include<string>
-//#include<iterator>
-//#include <utility>
-#include <vector>
-//#include <set>
-//#include <memory>
-//#include <algorithm>
-//#include <stack>
-#include <map>
-//#include <numeric>
-//#include <regex>
-#include <math.h>
-
-using namespace std;
-
-//static map<string, int> _map;
-
-int n_m_steps(int n, int m)
-{
-    if (n == 0 | m == 0)
-        return 1;
-
-    return n_m_steps(n - 1, m) + n_m_steps(n, m - 1);
-}
-
 int main(int argc, char **argv)
 {
+//    stores_sales_search();
+//    cout << "******************"<<
+//    Math::add(3, 5) << endl;
+//    mini_text_query();
+//    stores_sales_search();
+//    regex_match();
+//    getter_test();
+//    change_container();
+//    vector<string> input = reinterpret_cast<const vector<basic_string<char>> &>(argv);
+//for(const auto &e:static_cast<vector<string >>(argv))
+//    string file_path;
+//    while(argv>>file_path)
+
+//    if (size(*++argv)!=0)
+//    {
+//    cout << static_cast<string>(*++argv) << endl;
+//    const string file_path(static_cast<string>(argv[1]));
+//    } else
+//        file_path = "test.txt";
+
+//    ifstream file("test.txt");
+//    cout << file_path << endl;
+//    ifstream file(file_path);
+//    TextQuery tq(file);
+//    string input;
+//    cout << "Welcome to Mini TextQuery Program!\n"
+//         << "-------------------------------\n"
+//         << "You can enter the word you want to search...."
+//         << endl;
+//    while (cin >> input)
+//    {
+//        if (input == "exit")
+//            break;
+//        print(cout, tq.query(input));
+//    }
+//    save_person_info();
+//    cout << game_over_head +
+//            game_over1 +
+//            game_over2 +
+//            game_over3 +
+//            game_over4 +
+//            game_over5 +
+//            game_over_tail
+//         << endl;
+    int out = min_multiplier(1, 7);
+//    static_assert(out==7,"yes");
+    cout << "hello world" << endl;
     return 0;
 }
