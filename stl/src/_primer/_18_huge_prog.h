@@ -27,11 +27,16 @@ namespace hug_prog
     class Base
     {
     public:
+        friend bool operator==(const Base &, const Base &);
+
         virtual double f1(double) noexcept;
 
         virtual int f2() noexcept(false);
 
         virtual void f3();
+
+    protected:
+        virtual bool equal(const Base &) const;
     };
 
     class Derived : public Base
@@ -41,6 +46,9 @@ namespace hug_prog
         virtual int f2() noexcept(false);
 
         virtual void f3() noexcept;
+
+    protected:
+        virtual bool equal(const Base &) const;
     };
 
     class out_of_stock : public runtime_error
@@ -64,6 +72,18 @@ namespace hug_prog
 
         const string left, right;
     };
+
+    namespace NS{
+        class Quote{};
+
+        void display(const Quote &);
+
+    }
+    class Bulk_item: public NS::Quote{};
+    void fake_main(){
+        Bulk_item item;
+        display(item);
+    }
 }
 
 
