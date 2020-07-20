@@ -3,12 +3,29 @@
 
 #include <string>
 #include <functional>
+//#include <iterator>
+#include <type_traits>
 
 using namespace std;
 
 
 namespace spec_19
 {
+    template<typename IterT, typename DistT>
+    void advance(IterT &iter, DistT d)
+    {
+        if (typeid(typename iterator_traits<IterT>::iterator_category) ==
+            typeid(random_access_iterator_tag))
+            iter += d;
+        else
+        {
+            if (d >= 0)
+            { while (d--)++iter; }
+            else
+            { while (d++)--iter; }
+        }
+    }
+
     enum class open_modes
     {
         input, output, append
@@ -34,6 +51,7 @@ namespace spec_19
 //        friend void screen_menu();
 
     public:
+
         using pos = string::size_type;
         using action_type = char (Screen::*)(Screen::pos, Screen::pos) const;
         using move_mem_pointer_type = Screen &(Screen::*)();
@@ -85,8 +103,45 @@ namespace spec_19
 
     function<bool(const string &)> fp = &string::empty;
     auto f = mem_fn(&string::empty);
+
 //    auto fb = bind(&string::empty, _1);
-class 
+    class Token
+    {
+    public:
+        Token() : tok(INT), ival(0)
+        {}
+
+        Token(const Token &t) : tok(t.tok)
+        { copy_union(t); }
+
+        Token &operator=(const Token &);
+
+        ~Token()
+        { if (tok == STR)sval.~string(); }
+
+        Token &operator=(const string &);
+
+        Token &operator=(char);
+
+        Token &operator=(int);
+
+        Token &operator=(double);
+
+    private:
+        enum
+        {
+            INT, CHAR, DBL, STR
+        } tok;//discriminate
+        union
+        {
+            char cval;
+            int ival;
+            double dval;
+            string sval;
+        };
+
+        void copy_union(const Token &);
+    };
 }
 
 
