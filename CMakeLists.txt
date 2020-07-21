@@ -29,7 +29,7 @@ project(standard_template_libraries LANGUAGES CXX)
 #lookup all source file save name to DIR_SRCS in pwd
 aux_source_directory(. DIR_SRCS)
 #add subdir
-add_subdirectory(stl)
+#add_subdirectory(stl)
 #specify generate obj
 #set(INC_DIR D:/c_repo/cpp_prime/bin)
 #set(LINK_DIR D:/c_repo/cpp_prime/include)
@@ -44,7 +44,8 @@ message("+++++++++++++++++++++")
 #add_library(_primer SHARED IMPORTED)
 #link_directories("bin")
 #add_executable(stl_exx main.cc app.rc)
-add_executable(tetris main.cc app.rc)
+#add_executable(tetris main.cc app.rc)
+add_executable(tmp main.cc app.rc)
 #add link lib
 #target_link_libraries(stl_exx _primer)
 #target_link_libraries(stl_exx ${PROJECT_SOURCE_DIR}/cmake-build-debug/stl/lib_primer.dll)
