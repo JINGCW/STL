@@ -7,6 +7,7 @@
 #include <deque>
 #include <array>
 #include <iostream>
+#include <tuple>
 
 
 using namespace std;
@@ -25,6 +26,19 @@ using namespace std;
 
 namespace this_templates
 {
+
+    template<typename T, std::size_t N, std::size_t M>
+    //templates specifically deal with raw arrays or string literals.
+    constexpr bool less(T(&_a)[N], T(&_b)[M]) noexcept
+    {
+        for (std::size_t i = 0; i < N && i < M; ++i)
+        {
+            if (_a[i] < _b[i])return true;
+            if (_a[i] > _b[i])return false;
+        }
+        return N < M;
+    }
+
     template<typename...Args>
     void print(Args...args);
 
@@ -184,6 +198,8 @@ namespace this_templates
         using size_type = decltype(init_size);
 
     private:
+        // to get access to private members of Stack<T2> for any type T2:
+        template<typename> friend class Stack;
 
         friend ostream &operator
         <<<T>(ostream &, Stack<T, init_size> const &);
@@ -209,6 +225,9 @@ namespace this_templates
         {}
 
         Stack &operator=(Stack const &);// assignment operator
+
+        template<typename T2, auto init_size2, typename Container2>
+        Stack &operator=(Stack<T2,init_size2,Container2> const &);
 
         void push(T const &elem);
 

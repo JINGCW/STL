@@ -6,6 +6,21 @@ using namespace std;
 
 namespace this_templates
 {
+    template<typename T, auto init_size, typename Container>
+    template<typename T2, auto init_size2, typename Container2>
+    Stack<T, init_size, Container> &Stack<T, init_size, Container>
+    ::operator=(Stack<T2, init_size2, Container2> const &op2)
+    {
+        Stack<T2, init_size2, Container2> tmp(op2);
+        _data.clear();
+        while (!tmp.empty())
+        {
+            _data.push_front(tmp.top());
+            tmp.pop();
+        }
+        return *this;
+    }
+
     template<auto val, typename T=decltype(val)>
     T foo();
 
