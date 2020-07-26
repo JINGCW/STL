@@ -199,7 +199,8 @@ namespace this_templates
 
     private:
         // to get access to private members of Stack<T2> for any type T2:
-        template<typename> friend class Stack;
+        template<typename, auto, typename> friend
+        class Stack;
 
         friend ostream &operator
         <<<T>(ostream &, Stack<T, init_size> const &);
@@ -227,7 +228,7 @@ namespace this_templates
         Stack &operator=(Stack const &);// assignment operator
 
         template<typename T2, auto init_size2, typename Container2>
-        Stack &operator=(Stack<T2,init_size2,Container2> const &);
+        Stack &operator=(Stack<T2, init_size2, Container2> const &);
 
         void push(T const &elem);
 
