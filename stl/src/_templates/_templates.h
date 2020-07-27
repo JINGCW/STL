@@ -8,6 +8,8 @@
 #include <array>
 #include <iostream>
 #include <tuple>
+#include <bitset>
+#include <stack>
 
 
 using namespace std;
@@ -26,7 +28,61 @@ using namespace std;
 
 namespace this_templates
 {
+    template<typename...Args>
+    void print(Args...args);
 
+    template<typename T, template<typename> class Container=deque>
+    //this_class<int,vector> is ok instead of this_class<int,vector<int>>.
+    //the difference is that 2nd parameter is declared as being a class template
+    class _this_class
+    {
+        Container<T> _container;
+    public:
+        void push(T const &);
+    };
+
+    template<typename T=long double>
+    constexpr T pi = T{3.14};
+//    is_const
+    template<typename _Tp, int N>
+    array<_Tp, N> arr{};
+
+    template<auto N>
+    constexpr decltype(N) dval = N;//type of dval depends on passed value
+//    [](auto _x,auto _y){return _x+_y;}
+
+    //.template construct
+    template<unsigned long N>
+    void print_bitset(bitset<N> const &bs)
+    {
+        cout << bs.template to_string<char, char_traits<char>, allocator<char>>();
+    }
+
+    //@.template construct
+    //specialization of member function templates
+    class bool_string
+    {
+        string value;
+    public:
+        bool_string(string const &s) :
+                value(s)
+        {}
+
+        template<typename T=string>
+        T get() const
+        {
+            return value;
+        }
+    };
+
+    //full for bool
+    template<>
+    inline bool bool_string::get<bool>() const
+    {
+        return value == "true" || value == "1" || value == "on";
+    }
+
+    //@specialization of member function templates
     template<typename T, std::size_t N, std::size_t M>
     //templates specifically deal with raw arrays or string literals.
     constexpr bool less(T(&_a)[N], T(&_b)[M]) noexcept
@@ -38,9 +94,6 @@ namespace this_templates
         }
         return N < M;
     }
-
-    template<typename...Args>
-    void print(Args...args);
 
     template<std::size_t ...idx, typename T>
     void idx_print(T const &lst)
@@ -164,7 +217,13 @@ namespace this_templates
     template<typename T1, typename T2>
     class this_class
     {
+    public:
+        static constexpr bool is_signed = false;
     };
+
+    template<typename T1, typename T2>
+    //so you can write isSigned<char,int> instead of this_class<char,int>::is_signed
+    inline constexpr bool isSigned = this_class<T1, T2>::is_signed;
 
     template<typename T>
     class this_class<T, T>
