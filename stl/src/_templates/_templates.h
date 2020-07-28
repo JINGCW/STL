@@ -31,7 +31,48 @@ namespace this_templates
     template<typename...Args>
     void print(Args...args);
 
-    template<typename T, template<typename> class Container=deque>
+
+    template<typename>
+    struct this_c
+    {
+        //user-define the predefined copy constructor as deleted
+        this_c(this_c const volatile &) = delete;
+
+        template<typename U, typename=enable_if_t<!is_integral<U>::value>>
+        this_c(this_c<U> const &);
+    };
+//    template<typename T>
+//    typename enable_if<(sizeof(T)>4)>::type
+//    template<typename T,typename=typename enable_if<(sizeof(T)>4)>::type>
+    template<typename T>
+    using _enable_if_big_4 = enable_if_t<(sizeof(T) > 4)>;
+
+    template<typename T>
+    using _enable_if_string=enable_if_t<is_convertible<T,string>::value>;
+
+//    template<typename T>
+//    concept cpt_enable_if_string=enable_if_t<is_convertible_v<T, string>>;
+
+    template<typename T, typename=_enable_if_big_4<T>>
+//    template<cpt_enable_if_string T>
+    void foo()
+    {};
+
+    //move semantics and enable_if
+    void g()
+    {};
+
+    template<typename T>
+    void f(T val)
+    { g(); }
+
+    template<typename T>
+    void f(T &&val)
+    { g(forward<T>(val)); }//perfect forward val to g()
+
+    //@move semantics and enable_if
+    template<typename T, template<typename E, typename =allocator<E>>
+            class Container=deque>
     //this_class<int,vector> is ok instead of this_class<int,vector<int>>.
     //the difference is that 2nd parameter is declared as being a class template
     class _this_class
@@ -39,6 +80,20 @@ namespace this_templates
         Container<T> _container;
     public:
         void push(T const &);
+
+        bool empty() const
+        { return _container.empty(); }
+
+        //assign of class of element of type T2
+        template<typename T2,
+                template<typename E2, typename=allocator<E2>>
+                class Con2>
+        _this_class<T, Container> &operator=(_this_class<T2, Con2> const &);
+
+        //to get access private member of any _this_class with elem of type T2
+        template<typename, template<typename, typename> class>
+        friend
+        class _this_class;
     };
 
     template<typename T=long double>

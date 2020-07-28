@@ -6,6 +6,23 @@ using namespace std;
 
 namespace this_templates
 {
+    template<typename T, template<typename, typename> class Container>
+    template<typename T2, template<typename, typename> class Con2>
+    _this_class<T, Container> &_this_class<T, Container>
+    ::operator=(const _this_class<T2, Con2> &op2)
+    {
+        _container.clear();
+        _container.insert(_container.begin(), op2._container.begin(),
+                op2._container.end());
+        return *this;
+    }
+
+    template<typename T, template<typename, typename> class Container>
+    void _this_class<T, Container>::push(const T &e)
+    {
+        _container.push_back(e);
+    }
+
     template<typename T, auto init_size, typename Container>
     template<typename T2, auto init_size2, typename Container2>
     Stack<T, init_size, Container> &Stack<T, init_size, Container>
