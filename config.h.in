@@ -1,0 +1,6 @@
+//#cmakedefine USE_Tetris
+#cmakedefine USE_THIS_Boost
+
+#define VERSION_MAJOR @VERSION_MAJOR@
+#define VERSION_MINOR @VERSION_MINOR@
+#define VERSION_PATCH @VERSION_PATCH@

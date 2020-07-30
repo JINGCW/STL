@@ -2,13 +2,26 @@ cmake_minimum_required(VERSION 3.14)
 #set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 project(standard_template_libraries LANGUAGES CXX)
 
+set(VERSION_MAJOR 1)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 2)
+
+option(USE_THIS_Boost "Set to switch to build use Boost" ON)
+option(USE_Tetris "build Tetris" OFF)
+
+configure_file(
+        "${PROJECT_SOURCE_DIR}/config.h.in"
+        "${PROJECT_SOURCE_DIR}/config.h"
+)
 
 #set(CMAKE_CXX_STANDARD 14)
-set(Boost_INCLUDE_DIR D:/boost_1_73_0)
-set(Boost_LIBRARY_DIR D:/boost_1_73_0/lib64-msvc-14.1)
-#set(Boost_LIBRARY_DIR "D:/boost_1_73_0/libs")
-find_package(Boost 1.73.0 COMPONENTS REQUIRED)
 
+if (USE_THIS_Boost)
+    set(Boost_INCLUDE_DIR D:/boost_1_73_0)
+    set(Boost_LIBRARY_DIR D:/boost_1_73_0/lib64-msvc-14.1)
+    #set(Boost_LIBRARY_DIR "D:/boost_1_73_0/libs")
+    find_package(Boost 1.73.0 COMPONENTS REQUIRED)
+endif (USE_THIS_Boost)
 #file(GLOB PRIMER_SRC
 #        "stl/src/_primer/*.cpp"
 #        "stl/src/_primer/*.cc"
@@ -38,23 +51,40 @@ aux_source_directory(. DIR_SRCS)
 #set(INC_DIR D:/c_repo/cpp_prime/bin)
 #set(LINK_DIR D:/c_repo/cpp_prime/include)
 #include_directories(${PROJECT_SOURCE_DIR}/lib)
-include_directories(${Boost_INCLUDE_DIR})
+if (USE_THIS_Boost)
+    include_directories(${Boost_INCLUDE_DIR})
+endif (USE_THIS_Boost)
 
 message("+++++++++++++++++++++")
 message(${PROJECT_SOURCE_DIR})
+message(${PROJECT_BINARY_DIR})
 message(${CMAKE_SOURCE_DIR})
 message("+++++++++++++++++++++")
 #add_subdirectory(lib)
 
 #link_directories(${PROJECT_SOURCE_DIR}/lib)
-link_directories(${Boost_LIBRARY_DIR})
-#add_library(_primer SHARED IMPORTED)
-#link_directories("bin")
-#add_executable(stl_exx main.cc app.rc)
-#add_executable(tetris main.cc app.rc)
-add_executable(boost_options main.cc app.rc)
-#add link lib
-#target_link_libraries(stl_exx _primer)
-#target_link_libraries(stl_exx ${PROJECT_SOURCE_DIR}/cmake-build-debug/stl/lib_primer.dll)
-target_link_libraries(boost_options ${Boost_LIBRARIES})
-##
+if (USE_THIS_Boost)
+    link_directories(${Boost_LIBRARY_DIR})
+    add_executable(boost_options main.cc app.rc)
+
+    target_link_libraries(boost_options ${Boost_LIBRARIES})
+
+    install(TARGETS boost_options DESTINATION bin)
+    install(FILES "${PROJECT_SOURCE_DIR}/config.h" DESTINATION include)
+
+    set(CPACK_GENERATOR "TGZ")
+    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${VERSION_MAJOR}-${VERSION_MINOR}")
+    include(CPACK)
+elseif (USE_Tetris)
+    add_executable(tetris tetris.cc app.rc)
+else ()
+#    #add_library(_primer SHARED IMPORTED)
+#    #link_directories("bin")
+    add_executable(stl_exx main.cc app.rc)
+#    #add_executable(tetris main.cc app.rc)
+#    add_executable(stl_exx main.cc app.rc)
+#    #add link lib
+    #target_link_libraries(stl_exx _primer)
+    #target_link_libraries(stl_exx ${PROJECT_SOURCE_DIR}/cmake-build-debug/stl/lib_primer.dll)
+    ##
+endif (USE_THIS_Boost)
