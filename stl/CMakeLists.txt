@@ -11,6 +11,11 @@ add_subdirectory(src/_cmake/1/4_controlling_compilation_with_conditions)#todo re
 add_subdirectory(src/_cmake/1/8_control_compiler_flags)
 add_subdirectory(src/_cmake/1/9_set_standard_for_lang)
 add_subdirectory(src/_cmake/1/10_use_control_flow_constructs)
+add_subdirectory(src/_cmake/2_detect_env/4_discover_host_processor_arch)
+add_subdirectory(src/_cmake/2_detect_env/5_discover_host_processor_instruction_set)
+add_subdirectory(src/_cmake/2_detect_env/6_enable_vec_for_eigen_lib)
+add_subdirectory(src/_cmake/3_deal_compiler-dependent_src)
+
 
 FILE(GLOB SRCS
         "src/_primer/*"
