@@ -1,4 +1,4 @@
-//#define USE_Tetris
+/* #undef USE_Tetris */
 #define USE_THIS_Boost
 
 #define VERSION_MAJOR 1

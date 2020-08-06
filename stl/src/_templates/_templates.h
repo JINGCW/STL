@@ -10,6 +10,7 @@
 #include <tuple>
 #include <bitset>
 #include <stack>
+#include <functional>
 
 
 using namespace std;
@@ -31,6 +32,13 @@ namespace this_templates
     template<typename...Args>
     void print(Args...args);
 
+    template<typename T,typename=enable_if_t<!is_const<T>::value>>
+    void out_r(T&arg)
+    {
+//        cref(arg)
+        if(is_array<T>::value)
+            cout << "got array of " << extent_v<T> << endl;
+    }
 
     template<typename>
     struct this_c
