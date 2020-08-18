@@ -5,13 +5,10 @@ project(_primer)
 set(CMAKE_CXX_STANDARD 17)
 
 
-set (Torch_DIR D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages/torch)
-set(Boost_INCLUDE_DIR ${Torch_DIR}/include)
-set(Boost_LIBRARY_DIR ${Torch_DIR}/lib)
-find_package(Torch REQUIRED)
-include_directories(${Torch_INCLUDE_DIRS})
-message("Torch_INCLUDE_DIRS " ${Torch_INCLUDE_DIRS})
-
+#set (Torch_DIR D:/Torch/libtorch)
+#set(Torch_INCLUDE_DIR ${Torch_DIR}/include)
+#set(Torch_LIBRARIES ${Torch_DIR}/lib)
+#unset(CMAKE_PREFIX_PATH CACHE)
 
 
 #aux_source_directory(src/_primer DIR_LIB_SRCS_PRIMER)

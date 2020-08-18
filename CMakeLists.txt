@@ -8,11 +8,50 @@ set(VERSION_PATCH 2)
 
 option(USE_THIS_Boost "Set to switch to build use Boost" ON)
 option(USE_Tetris "build Tetris" OFF)
+option(USE_THIS_Torch "set to use Torch" ON)
+option(USE_THIS_Python "set to use Python" ON)
 
 configure_file(
         "${PROJECT_SOURCE_DIR}/config.h.in"
         "${PROJECT_SOURCE_DIR}/config.h"
 )
+if (USE_THIS_Torch)
+    set(CUDNN_LIBRARY_PATH D:/cuDNN/cuda/lib)
+    set(CUDNN_INCLUDE_PATH D:/cuDNN/cuda/include)
+    #set(CMAKE_PREFIX_PATH "D:/Torch/libtorch")
+    #set(Torch_DIR_PATH D:/Torch/libtorch)
+    set(Torch_LIBRARY_DIR D:/Torch/libtorch/lib)
+    set(Torch_INCLUDE_DIR1 D:/Torch/libtorch/include)
+    set(Torch_INCLUDE_DIR D:/Torch/libtorch/include/torch/csrc/api/include)
+    find_package(Torch REQUIRED)
+    if (NOT Torch_FOUND)
+        message(STATUS "Torch not found!!!")
+    else ()
+        message(STATUS "Torch found!!!")
+    endif ()
+    message(STATUS "    Torch version: ${Torch_VERSION}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+    #find_package(OpenCV REQUIRED)
+
+    #include_directories(${Torch_INCLUDE_DIRS})
+    #include_directories(${OpenCV_INCLUDE_DIRS})
+    message(STATUS "Torch_INCLUDE_DIRS " ${Torch_INCLUDE_DIR})
+    #message("OpenCV_INCLUDE_DIRS " ${OpenCV_INCLUDE_DIRS})
+endif ()
+
+if (USE_THIS_Python)
+    set(Python_INCLUDE_DIR D:/Python38/include)
+    set(Python_LIBRARY_DIR D:/Python38/libs)
+    find_package(Python REQUIRED)
+    if (NOT Python_FOUND)
+        message(Python is not found!!!)
+    else ()
+        message(STATUS "    Python found!!!->${Python_VERSION}")
+        include_directories(${Python_INCLUDE_DIR})
+        link_directories(${Python_LIBRARY_DIR})
+    endif ()
+endif ()
+
 
 #set(CMAKE_CXX_STANDARD 14)
 
@@ -53,7 +92,17 @@ add_subdirectory(stl)#todo remove this line or retain
 #include_directories(${PROJECT_SOURCE_DIR}/lib)
 if (USE_THIS_Boost)
     include_directories(${Boost_INCLUDE_DIR})
+    message(STATUS "Boost_INCLUDE_DIR:->-> ${Boost_INCLUDE_DIR}")
 endif (USE_THIS_Boost)
+
+if (USE_THIS_Torch)
+    include_directories(${Torch_INCLUDE_DIR})
+    include_directories(${Torch_INCLUDE_DIR1})
+    message(STATUS "Torch_INCLUDE_DIR:->-> ${Torch_INCLUDE_DIR}")
+    link_directories(${Torch_LIBRARY_DIR})
+    link_directories(${Torch_LIBRARY_DIR1})
+    message(STATUS "Torch libs: ->${Torch_LIBRARIES}")
+endif ()
 
 message("+++++++++++++++++++++")
 message(${PROJECT_SOURCE_DIR})
@@ -63,11 +112,18 @@ message("+++++++++++++++++++++")
 #add_subdirectory(lib)
 
 #link_directories(${PROJECT_SOURCE_DIR}/lib)
+
 if (USE_THIS_Boost)
     link_directories(${Boost_LIBRARY_DIR})
+
     add_executable(boost_options main.cc app.rc)
 
     target_link_libraries(boost_options ${Boost_LIBRARIES})
+    message(STATUS "Boost libs: ->${Boost_LIBRARIES}")
+
+    if (USE_THIS_Torch)
+        target_link_libraries(boost_options ${Torch_LIBRARIES})
+    endif ()
 
     install(TARGETS boost_options DESTINATION bin)
     install(FILES "${PROJECT_SOURCE_DIR}/config.h" DESTINATION include)
@@ -78,12 +134,12 @@ if (USE_THIS_Boost)
 elseif (USE_Tetris)
     add_executable(tetris tetris.cc app.rc)
 else ()
-#    #add_library(_primer SHARED IMPORTED)
-#    #link_directories("bin")
+    #    #add_library(_primer SHARED IMPORTED)
+    #    #link_directories("bin")
     add_executable(stl_exx main.cc app.rc)
-#    #add_executable(tetris main.cc app.rc)
-#    add_executable(stl_exx main.cc app.rc)
-#    #add link lib
+    #    #add_executable(tetris main.cc app.rc)
+    #    add_executable(stl_exx main.cc app.rc)
+    #    #add link lib
     #target_link_libraries(stl_exx _primer)
     #target_link_libraries(stl_exx ${PROJECT_SOURCE_DIR}/cmake-build-debug/stl/lib_primer.dll)
     ##
