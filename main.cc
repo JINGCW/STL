@@ -5,12 +5,16 @@
 
 /* Shows how to use both command line and config file. */
 #include "config.h"
+
 #ifdef USE_THIS_Boost
 
 #include <boost/program_options.hpp>
 
+#ifdef USE_THIS_Torch1
 
+#   include <torch/torch.h>
 
+#endif
 
 namespace po = boost::program_options;
 
@@ -23,15 +27,21 @@ using namespace std;
 
 // A helper function to simplify the main part.
 template<class T>
-ostream &operator<<(ostream &os, const vector <T> &v)
+ostream &operator<<(ostream &os, const vector<T> &v)
 {
     copy(v.begin(), v.end(), ostream_iterator<T>(os, " "));
     return os;
 }
 
+#define boost_option_vector_string_err 0
+
 
 int main(int ac, char *av[])
 {
+#ifdef USE_THIS_Torch1
+    cout << torch::randn({1}) * 5 << endl;
+#endif
+#if boost_option_vector_string_err
     try
     {
         int opt;
@@ -54,14 +64,14 @@ int main(int ac, char *av[])
                 ("optimization,O", po::value<int>(&opt)->default_value(10),
                  "optimization level")
                 ("include-path,I",
-                 po::value < vector < string > > ()->composing(),
+                 po::value<vector<string> >()->composing(),
                  "include path");
 
         // Hidden options, will be allowed both on command line and
         // in config file, but will not be shown to the user.
         po::options_description hidden("Hidden options");
         hidden.add_options()
-                ("input-file", po::value < vector < string > > (), "input file");
+                ("input-file", po::value<vector<string> >(), "input file");
 
 
         po::options_description cmdline_options;
@@ -107,13 +117,13 @@ int main(int ac, char *av[])
         if (vm.count("include-path"))
         {
             cout << "Include paths are: "
-                 << vm["include-path"].as < vector < string > > () << "\n";
+                 << vm["include-path"].as<vector<string> >() << "\n";
         }
 
         if (vm.count("input-file"))
         {
             cout << "Input files are: "
-                 << vm["input-file"].as < vector < string > > () << "\n";
+                 << vm["input-file"].as<vector<string> >() << "\n";
         }
 
         cout << "Optimization level is " << opt << "\n";
@@ -123,6 +133,7 @@ int main(int ac, char *av[])
         cout << e.what() << "\n";
         return 1;
     }
+#endif
     return 0;
 }
 

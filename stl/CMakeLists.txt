@@ -21,13 +21,13 @@ add_subdirectory(src/_cmake/2_detect_env/4_discover_host_processor_arch)
 add_subdirectory(src/_cmake/2_detect_env/5_discover_host_processor_instruction_set)
 add_subdirectory(src/_cmake/2_detect_env/6_enable_vec_for_eigen_lib)
 add_subdirectory(src/_cmake/3_deal_compiler-dependent_src)
-#add_subdirectory(src/_torch)
+#add_subdirectory(src/this_torch)
 
 
 FILE(GLOB SRCS
         "src/_primer/*"
         "src/_templates/*"
-        "src/_torch/*"
+#        "src/_torch/*"
         )
 add_library(_primer SHARED ${SRCS})
 #add_library(_primer SHARAED ${DIR_LIB_SRCS_PRIMER})
