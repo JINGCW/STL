@@ -14,3 +14,4 @@ __pycache__/
 _main.cc
 /stl/src/_alg_test/
 /CMakeFiles/
+*.pyd

@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(_primer)
+#project(_primer)
+project(_pybind11_ex)
 
-set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 17)
 
 
 #set (Torch_DIR D:/Torch/libtorch)
@@ -28,6 +29,15 @@ FILE(GLOB SRCS
         "src/_primer/*"
         "src/_templates/*"
 #        "src/_torch/*"
+#        "src/_pybind11"
         )
-add_library(_primer SHARED ${SRCS})
+
+FILE(GLOB pybind11_srcs
+        "src/_pybind11/*.h"
+        "src/_pybind11/*.cpp"
+        )
+
+#add_library(_primer SHARED ${SRCS})
+
+add_library(_pybind11_ex SHARED ${pybind11_srcs})
 #add_library(_primer SHARAED ${DIR_LIB_SRCS_PRIMER})

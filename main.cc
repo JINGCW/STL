@@ -5,10 +5,12 @@
 
 /* Shows how to use both command line and config file. */
 #include "config.h"
+#include "stl/src/_pybind11/example.h"
+//#include <pybind11/pybind11.h>
 
-#ifdef USE_THIS_Boost
+//#ifdef USE_THIS_Boost
 
-#include <boost/program_options.hpp>
+//#include <boost/program_options.hpp>
 
 #ifdef USE_THIS_Torch1
 
@@ -16,12 +18,13 @@
 
 #endif
 
-namespace po = boost::program_options;
+//namespace po = boost::program_options;
 
 
 #include <iostream>
 #include <fstream>
 #include <iterator>
+#include <vector>
 
 using namespace std;
 
@@ -134,7 +137,9 @@ int main(int ac, char *av[])
         return 1;
     }
 #endif
+    cout << pybind11_add(3, 4) << endl;
+    cout << "hello world" << endl;
     return 0;
 }
 
-#endif
+//#endif

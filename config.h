@@ -1,6 +1,6 @@
 /* #undef USE_Tetris */
-#define USE_THIS_Boost
-#define USE_THIS_Torch1
+/* #undef USE_THIS_Boost */
+/* #undef USE_THIS_Torch1 */
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
