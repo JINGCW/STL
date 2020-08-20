@@ -88,6 +88,15 @@ if (USE_THIS_Boost)
 endif (USE_THIS_Boost)
 
 if (USE_PythonPack_Pybind11)
+#    if (MSVC)
+#        set(PYBIND11_CPP_STANDARD /std:c++14)
+#        set(PYBIND11_CPP_STANDARD /std:c++latest) # Enables some MSVC C++17 features
+#    elseif (GNU OR Clang)
+#        #gcc/clang
+#        set(PYBIND11_CPP_STANDARD -std=c++11)
+#        set(PYBIND11_CPP_STANDARD -std=c++14)
+#        set(PYBIND11_CPP_STANDARD -std=c++1z)# Experimental C++17 support
+#    endif ()
     set(pybind11_DIR D:/Anaconda3/envs/vconda_summer_charts/Library/share/cmake/pybind11)
     include_directories(${conda_sitepackage_dir}/pybind11/include)
     link_directories(${conda_sitepackage_dir}/pybind11/include)
