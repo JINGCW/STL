@@ -17,10 +17,11 @@ def test_class_pet():
     print('--------------------------')
     class_pet=pybind11_example.class_Pet("lucky",pybind11_example.class_Pet.cat)
     print(class_pet.kind)
+    pybind11_example.print_dict({'a':1,'b':2})
     return
 
 
 if __name__ == '__main__':
-    print(pybind11_example.__doc__)
-    print(pybind11_example.add(6, 6))
+    # print(pybind11_example.__doc__)
+    # print(pybind11_example.add(6, 6))
     test_class_pet()

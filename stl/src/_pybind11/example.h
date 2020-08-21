@@ -82,10 +82,26 @@ struct polymorphic_dog : public polymorphic_pet
     { return "polymorphic woof!"; }
 };
 
+void print_dict(const py::dict &dict)
+{
+    for (auto item:dict)
+        cout << "key=" << string(py::str(item.first))
+             << ", value=" << string(py::str(item.second)) << endl;
+}
+/*Accepting *args and **kwargs*/
+void generic(const py::args& args,const py::kwargs& kwargs)
+{
+    //do something with args
+    if (kwargs)
+        //do somthing with kwargs
+        ;
+}
+
 PYBIND11_MODULE(pybind11_example, m)
 {
     m.doc() = "pybind11 example plugin";//origin module docstring
 
+    m.def("print_dict", &print_dict);
     //add function
     m.def("add", &pybind11_add, "function which add 2 numbers",
           py::arg("a") = 1, py::arg("b") = 2
@@ -138,7 +154,7 @@ PYBIND11_MODULE(pybind11_example, m)
      */
     py::enum_<class_Pet::Kind>(class_pet, "Kind")
             .value("dog", class_Pet::Kind::dog)
-            .value("cat",class_Pet::Kind::cat)
+            .value("cat", class_Pet::Kind::cat)
             .export_values();
     //inheritance
     py::class_<Dog, Pet/*specify c++ parent type*/>(m, "Dog")

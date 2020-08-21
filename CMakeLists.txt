@@ -7,7 +7,7 @@ set(VERSION_MINOR 0)
 set(VERSION_PATCH 2)
 #set(BUILD_SHARED_LIBS OFF)
 set(PYTHON_INCLUDE_PATH D:/Anaconda3/envs/vconda_summer_charts)
-set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
+#set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(conda_sitepackage_dir D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages)
 
@@ -65,18 +65,25 @@ else ()
 endif ()
 
 if (USE_THIS_Python)
-    set(PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_PATH}/include)
-    set(PYTHON_LIBRARY ${PYTHON_INCLUDE_PATH}/libs)
+    if (USE_PythonPack_Pybind11)
+        set(PYTHON_EXECUTABLE ${PYTHON_INCLUDE_PATH}/python.exe)
+        set(PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_PATH}/include)
+        set(PYTHON_LIBRARY ${PYTHON_INCLUDE_PATH}/libs)
+        find_package(Python REQUIRED)
+    else ()
+        set(PYTHON_INCLUDE_DIR "D:/Python38/include")
+        set(PYTHON_LIBRARY_DIR "D:/Python38//libs")
+        #    endif ()
+    endif ()
     find_package(Python REQUIRED)
     if (NOT Python_FOUND)
         message(Python is not found!!!)
     else ()
         message(STATUS "    Python found!!!->${Python_VERSION}")
-        include_directories(${Python_INCLUDE_DIR})
-        link_directories(${Python_LIBRARY_DIR})
     endif ()
+    include_directories(${Python_INCLUDE_DIR})
+    link_directories(${Python_LIBRARY_DIR})
 endif ()
-
 
 #set(CMAKE_CXX_STANDARD 11)
 
@@ -88,15 +95,16 @@ if (USE_THIS_Boost)
 endif (USE_THIS_Boost)
 
 if (USE_PythonPack_Pybind11)
-#    if (MSVC)
-#        set(PYBIND11_CPP_STANDARD /std:c++14)
-#        set(PYBIND11_CPP_STANDARD /std:c++latest) # Enables some MSVC C++17 features
-#    elseif (GNU OR Clang)
-#        #gcc/clang
-#        set(PYBIND11_CPP_STANDARD -std=c++11)
-#        set(PYBIND11_CPP_STANDARD -std=c++14)
-#        set(PYBIND11_CPP_STANDARD -std=c++1z)# Experimental C++17 support
-#    endif ()
+    #    if (MSVC)
+    #        set(PYBIND11_CPP_STANDARD /std:c++14)
+    #        set(PYBIND11_CPP_STANDARD /std:c++latest) # Enables some MSVC C++17 features
+    #    elseif (GNU OR Clang)
+    #        #gcc/clang
+    #        set(PYBIND11_CPP_STANDARD -std=c++11)
+    #        set(PYBIND11_CPP_STANDARD -std=c++14)
+    #        set(PYBIND11_CPP_STANDARD -std=c++1z)# Experimental C++17 support
+    #    endif ()
+    #    set(PYTHON_EXECUTABLE ${PYTHON_INCLUDE_PATH}/python.exe)
     set(pybind11_DIR D:/Anaconda3/envs/vconda_summer_charts/Library/share/cmake/pybind11)
     include_directories(${conda_sitepackage_dir}/pybind11/include)
     link_directories(${conda_sitepackage_dir}/pybind11/include)
@@ -197,15 +205,23 @@ elseif (USE_THIS_Torch1)
                 $<TARGET_FILE_DIR:torch_example>)
     endif (MSVC)
 elseif (USE_PythonPack_Pybind11)
-    #        add_subdirectory(${conda_sitepackage_dir}/pybind11/include)
+    #            add_subdirectory(${conda_sitepackage_dir}/pybind11/include)
     find_package(pybind11 REQUIRED)
     if (NOT pybind11_FOUND)
         message(pybind11 is not found!!!)
+    else ()
+        message("pybind11_version: ${pybind11_VERSION}")
     endif ()
     pybind11_add_module(pybind11_example
             stl/src/_pybind11/example.h
             stl/src/_pybind11/example.cpp
             )
+    #interface library target
+#        target_link_libraries(pybind11_example PRIVATE pybind11::module)
+#        set_target_properties(pybind11_example PROPERTIES
+#                PREFIX "${PYTHON_MODULE_PREFIX}"
+#                SUFFIX "${PYTHON_MODULE_SUFFIX}"
+#                )
 else ()
     #    #add_library(_primer SHARED IMPORTED)
     #    #link_directories("bin")

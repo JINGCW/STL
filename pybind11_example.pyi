@@ -14,3 +14,6 @@ class Dog(Pet):
 
     def bark(self):
         pass
+
+def print_dict(item:dict)->str:
+    pass

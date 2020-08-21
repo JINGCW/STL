@@ -39,5 +39,7 @@ FILE(GLOB pybind11_srcs
 
 #add_library(_primer SHARED ${SRCS})
 
-add_library(_pybind11_ex SHARED ${pybind11_srcs})
+#add_library(pybind11_example SHARED ${pybind11_srcs})
+#interface library target
+#add_library(pybind11_example MODULE ${pybind11_srcs})
 #add_library(_primer SHARAED ${DIR_LIB_SRCS_PRIMER})
