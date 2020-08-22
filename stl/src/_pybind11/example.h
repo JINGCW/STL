@@ -4,6 +4,8 @@
 #include <pybind11/pybind11.h>
 #include <string>
 #include <iostream>
+//#include <mutex>
+//#include <map>
 
 using namespace std;
 
@@ -88,18 +90,136 @@ void print_dict(const py::dict &dict)
         cout << "key=" << string(py::str(item.first))
              << ", value=" << string(py::str(item.second)) << endl;
 }
+
 /*Accepting *args and **kwargs*/
-void generic(const py::args& args,const py::kwargs& kwargs)
+void generic(const py::args &args, const py::kwargs &kwargs)
 {
     //do something with args
     if (kwargs)
         //do somthing with kwargs
         ;
 }
+/*default arguments revisited*/
+/*
+ * py::class_<MyClass>("MyClass")
+ * .def("myFunction", py::arg("arg") = SomeType(123));
+ *
+ * py::class_<MyClass>("MyClass")
+ * .def("myFunction", py::arg_v("arg", SomeType(123), "SomeType(123)"));
+ *
+ * py::class_<MyClass>("MyClass")
+ * .def("myFunction", py::arg("arg") = (SomeType *) nullptr);
+ */
+class Animal
+{
+public:
+    virtual ~Animal()
+    {};
+
+    virtual string go(size_t n) = 0;
+
+    virtual string name()
+    { return "unknown"; }
+};
+
+class Py_animal : public Animal
+{
+public:
+    /* Inherit the constructors */
+    using Animal::Animal;
+
+    /* Trampoline (need one for each virtual function) */
+    string go(size_t n) override
+    {
+        PYBIND11_OVERLOAD_PURE(
+                string,//return type
+                Animal,//parent class
+                go,/* Name of function in C++ (must match Python name) */
+                n//arguments
+        );
+    }
+
+    string name() override
+    {PYBIND11_OVERLOAD(string, Animal, name,); }
+};
+
+
+class animal_dog : public Animal
+{
+public:
+    string go(size_t n) override
+    {
+        string out;
+        for (auto i = 0; i < n; ++i)
+            out += bark() + " ";
+        return out;
+    }
+
+    virtual string bark()
+    { return "woof!"; }
+};
+
+class Py_animal_dog : public animal_dog
+{
+public:
+    using animal_dog::animal_dog;
+
+    string go(size_t n) override
+    {
+        PYBIND11_OVERLOAD(string, animal_dog, go, n);
+    }
+
+    string bark() override
+    {PYBIND11_OVERLOAD(string, animal_dog, bark,); }
+
+    string name() override
+    {PYBIND11_OVERLOAD(string, animal_dog, name,); }
+};
+
+string call_go(Animal *animal)
+{
+    return animal->go(3);
+}
+/*
+ * template <class AnimalBase = Animal> class PyAnimal : public AnimalBase {
+ * public:
+ *  using AnimalBase::AnimalBase; // Inherit constructors
+ *  std::string go(int n_times) override { PYBIND11_OVERLOAD_PURE(std::string, AnimalBase, go, n_times); }
+ *  std::string name() override { PYBIND11_OVERLOAD(std::string, AnimalBase, name, ); }
+ *  };
+ * template <class DogBase = Dog> class PyDog : public PyAnimal<DogBase> {
+ * public:
+    using PyAnimal<DogBase>::PyAnimal; // Inherit constructors
+    // Override PyAnimal's pure virtual go() with a non-pure one:
+    std::string go(int n_times) override { PYBIND11_OVERLOAD(std::string, DogBase, go, n_times); }
+    std::string bark() override { PYBIND11_OVERLOAD(std::string, DogBase, bark, ); }
+};
+
+py::class_<Animal, PyAnimal<>> animal(m, "Animal");
+py::class_<Dog, PyDog<>> dog(m, "Dog");
+py::class_<Husky, PyDog<Husky>> husky(m, "Husky");
+// ... add animal, dog, husky definitions
+*/
 
 PYBIND11_MODULE(pybind11_example, m)
 {
     m.doc() = "pybind11 example plugin";//origin module docstring
+    //combining virtual function and inheritance
+    //override virtual functions in Python
+    py::class_<Animal, Py_animal/*trampoline*/>(m, "Animal")
+            .def(py::init<>())
+            .def("go", &Animal::go);
+    py::class_<animal_dog, Animal>(m, "animal_dog")
+            .def(py::init<>());
+    m.def("call_go", &call_go);
+
+    m.def("bark_with_none", [](Dog *dog) -> string {
+        if (dog)return "woof with none";
+        return "no dog";
+    }, py::arg("dog").none(true));
+    //Non-converting arguments
+    m.def("floats_only", [](float f) { return 0.5 * f; }, py::arg("f").noconvert());
+    m.def("floats_prefered", [](float f) { return 0.5 * f; }, py::arg("f"));
 
     m.def("print_dict", &print_dict);
     //add function
@@ -160,6 +280,7 @@ PYBIND11_MODULE(pybind11_example, m)
     py::class_<Dog, Pet/*specify c++ parent type*/>(m, "Dog")
             .def(py::init<const string &>())
             .def("bark", &Dog::bark);
+
     // Return a base pointer to a derived instance
     /*
      * >>> p = example.pet_store()
