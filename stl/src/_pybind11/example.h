@@ -200,10 +200,69 @@ py::class_<Dog, PyDog<>> dog(m, "Dog");
 py::class_<Husky, PyDog<Husky>> husky(m, "Husky");
 // ... add animal, dog, husky definitions
 */
+//Custom constructors
+class Custom_constructor
+{
+private:
+    Custom_constructor(int v):
+    value(v){}//private constructor
+public:
+    //factory function
+    static Custom_constructor create(int a)
+    { return Custom_constructor(a); }
+
+private:
+    int value;
+};
+
+//Pickling support
+class Pickleable
+{
+public:
+    Pickleable(const string &v) :
+            m_value(v)
+    {}
+
+    const string &value() const
+    { return m_value; }
+
+    void set_extra(int v)
+    { m_extra = v; }
+
+    int extra()const
+    { return m_extra; }
+
+private:
+    string m_value;
+    int m_extra = 0;
+};
 
 PYBIND11_MODULE(pybind11_example, m)
 {
     m.doc() = "pybind11 example plugin";//origin module docstring
+    //Pickling support
+    py::class_<Pickleable>(m, "Pickleable")
+            .def(py::init<string>())
+            .def("value", &Pickleable::value)
+            .def("extra",&Pickleable::extra)
+            .def("set_extra",&Pickleable::set_extra)
+            .def(py::pickle(
+                    [](const Pickleable&p){//__getstate__
+                        /*return a tuple that fully encodes the state of the object*/
+                        return py::make_tuple(p.value(),p.extra());
+                    },
+                    [](const py::tuple& t){//__setstate__
+                        if(t.size()!=2)
+                            throw runtime_error("Invalide state!");
+                        /*create new c++ instance*/
+                        Pickleable p_(t[0].cast<string>());
+                        /*set any additional state*/
+                        p_.set_extra(t[1].cast<int>());
+                        return p_;
+                    }
+                    ));
+    py::class_<Custom_constructor>(m, "Custom_constructor")
+            .def(py::init(&Custom_constructor::create));
     //combining virtual function and inheritance
     //override virtual functions in Python
     py::class_<Animal, Py_animal/*trampoline*/>(m, "Animal")

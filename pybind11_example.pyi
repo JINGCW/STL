@@ -17,3 +17,11 @@ class Dog(Pet):
 
 def print_dict(item:dict)->str:
     pass
+
+class Pickleable:
+    def __init__(self,value:str):
+        self.m_value=value
+        self.m_extra=0
+
+    def set_extra(self,value:int):
+        pass

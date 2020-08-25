@@ -1,27 +1,36 @@
 # import pybind11_main
-import pybind11_example
+import pybind11_example as bind_ex
+try:
+    import cPickle as pickle#use cPickle on python2.7
+except ImportError:
+    import pickle
 
 
 def test_class_pet():
-    pet = pybind11_example.Pet("hehe")
+    pet = bind_ex.Pet("hehe")
     print(pet.get_name())
     pet.set_name("new_pet")
     print(pet.get_name())
     print(pet.__repr__)
-    dog=pybind11_example.Dog("Molly")
+    dog=bind_ex.Dog("Molly")
     print(dog.bark())
-    p = pybind11_example.pet_store()
+    p = bind_ex.pet_store()
     # p.bark()
-    p2 = pybind11_example.pet_store2()
+    p2 = bind_ex.pet_store2()
     print(p2.bark())
     print('--------------------------')
-    class_pet=pybind11_example.class_Pet("lucky",pybind11_example.class_Pet.cat)
+    class_pet=bind_ex.class_Pet("lucky",bind_ex.class_Pet.cat)
     print(class_pet.kind)
-    pybind11_example.print_dict({'a':1,'b':2})
+    bind_ex.print_dict({'a':1,'b':2})
+    #pickle
+    p=bind_ex.Pickleable("test_value")
+    p.set_extra(15)
+    print(pickle.dumps(p,2))
+
     return
 
 
 if __name__ == '__main__':
-    # print(pybind11_example.__doc__)
-    # print(pybind11_example.add(6, 6))
+    # print(bind_ex.__doc__)
+    # print(bind_ex.add(6, 6))
     test_class_pet()
