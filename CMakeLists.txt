@@ -10,6 +10,7 @@ set(PYTHON_INCLUDE_PATH D:/Anaconda3/envs/vconda_summer_charts)
 #set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(conda_sitepackage_dir D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages)
+set(LUA_DIR D:/lua/5.1)
 #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #set(CMAKE_DEBUG_POSTFIX "_d")
@@ -38,12 +39,15 @@ option(USE_Tetris "build Tetris" OFF)
 option(USE_THIS_Torch1 "set to use torch" OFF)
 option(USE_THIS_Python "set to use Python" ON)
 option(USE_ORIGIN_Torch "set to use origin torch, not python package" ON)
-option(USE_PythonPack_Pybind11 "set to use python sitepakcage pybind11" ON)
+option(USE_PythonPack_Pybind11 "set to use python sitepakcage pybind11" OFF)
+option(USE_Lua "set to use lua" ON)
 
 configure_file(
         "${PROJECT_SOURCE_DIR}/config.h.in"
         "${PROJECT_SOURCE_DIR}/config.h"
 )
+#lutok2
+include_directories(tools/lutok2-master/include)
 
 message(STATUS "use this torch: ->${USE_THIS_Torch1}")
 
@@ -106,6 +110,19 @@ if (USE_THIS_Python)
     include_directories(${Python_INCLUDE_DIR})
     link_directories(${Python_LIBRARY_DIR})
 endif ()
+if (USE_Lua)
+    set(CMAKE_PREFIX_PATH ${LUA_DIR})
+    set(Lua_INCLUDE_DIR ${LUA_DIR}/include)
+    set(Lua_LIBRARY_DIR ${LUA_DIR}/lib)
+    find_package(Lua REQUIRED)
+    if (NOT Lua_FOUND)
+        message(Lua is not found!!!)
+    else ()
+        message(STATUS "    Lua found!!!->${Lua_VERSION}")
+    endif ()
+    include_directories(${Lua_INCLUDE_DIR})
+    link_directories(${Lua_LIBRARY_DIR})
+endif ()
 
 #set(CMAKE_CXX_STANDARD 11)
 
@@ -156,6 +173,8 @@ endif ()
 aux_source_directory(. DIR_SRCS)
 #add subdir
 add_subdirectory(stl)#todo remove this line or retain
+add_subdirectory(game)
+
 #specify generate obj
 #set(INC_DIR D:/c_repo/cpp_prime/bin)
 #set(LINK_DIR D:/c_repo/cpp_prime/include)
@@ -244,11 +263,11 @@ elseif (USE_PythonPack_Pybind11)
             stl/src/_pybind11/example.cpp
             )
     #interface library target
-#        target_link_libraries(pybind11_example PRIVATE pybind11::module)
-#        set_target_properties(pybind11_example PROPERTIES
-#                PREFIX "${PYTHON_MODULE_PREFIX}"
-#                SUFFIX "${PYTHON_MODULE_SUFFIX}"
-#                )
+    #        target_link_libraries(pybind11_example PRIVATE pybind11::module)
+    #        set_target_properties(pybind11_example PROPERTIES
+    #                PREFIX "${PYTHON_MODULE_PREFIX}"
+    #                SUFFIX "${PYTHON_MODULE_SUFFIX}"
+    #                )
 else ()
     #    #add_library(_primer SHARED IMPORTED)
     #    #link_directories("bin")
@@ -259,7 +278,7 @@ else ()
     #    add_executable(stl_exx main.cc app.rc)
     #    #add link lib
     #    target_link_libraries(stl_exx _primer)
-    target_link_libraries(stl_exx _pybind11_ex)
+    target_link_libraries(${TARGET_NAME} ${Lua_LIBRARIES})
     #target_link_libraries(stl_exx ${PROJECT_SOURCE_DIR}/cmake-build-debug/stl/lib_primer.dll)
     ##
 endif (USE_THIS_Boost)
