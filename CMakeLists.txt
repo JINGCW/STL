@@ -10,7 +10,9 @@ set(PYTHON_INCLUDE_PATH D:/Anaconda3/envs/vconda_summer_charts)
 #set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(conda_sitepackage_dir D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages)
-set(LUA_DIR D:/lua/5.1)
+set(LUA_DIR D:/lua/5.4)
+#set(CMAKE_C_FLAGS -m32)
+#set(CMAKE_CXX_FLAGS -m32)#todo error happen uncomment this line
 #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #set(CMAKE_DEBUG_POSTFIX "_d")
@@ -118,7 +120,7 @@ if (USE_Lua)
     if (NOT Lua_FOUND)
         message(Lua is not found!!!)
     else ()
-        message(STATUS "    Lua found!!!->${Lua_VERSION}")
+        message(STATUS "    Lua found!!!->${LUA_VERSION}")
     endif ()
     include_directories(${Lua_INCLUDE_DIR})
     link_directories(${Lua_LIBRARY_DIR})
@@ -174,6 +176,7 @@ aux_source_directory(. DIR_SRCS)
 #add subdir
 add_subdirectory(stl)#todo remove this line or retain
 add_subdirectory(game)
+#install(TARGETS games RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/lib)
 
 #specify generate obj
 #set(INC_DIR D:/c_repo/cpp_prime/bin)

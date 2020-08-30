@@ -51,6 +51,7 @@ namespace with_lua_c_api
     extern "C" LUA_API int lua_lua_games(lua_State*L)
     {
         lua_newtable(L);
+//        lua_register()
         luaL_register(L, NULL, self_module);
         return 1;
     }
