@@ -18,9 +18,18 @@ void say_hello()
 #endif
 }
 
+void array_address_operate()
+{
+    int arr[]={1,2,3,4};
+    int *ptr = (int *)(&arr + 1);
+    printf("%d\n", *(ptr - 1));
+}
+
 int main(int argc, char **argv)
 {
     say_hello();
+    array_address_operate();
+
     cout << "compiler name is: " << COMPILER_NAME << endl;
     return 0;
 }

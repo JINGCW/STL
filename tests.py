@@ -56,7 +56,7 @@ def temp():
 
 
 def lua_games_test():
-    from ctypes import windll,WinDLL,CDLL
+    from ctypes import windll, WinDLL, CDLL
 
     dll = windll.LoadLibrary('./game/libgames.dll')
     # dll = WinDLL('./game/libgames.dll')
@@ -68,6 +68,75 @@ def lua_games_test():
     # print(dll.add(3,4))
     # print(dll.nothing_c_char())
     # print(dll.nothing())
+
+
+def handle_lucky_number():
+    """pass 98.33%"""
+    while True:
+        try:
+            spend_amount, lucky_num, threshold = list(map(lambda x: int(x), input().split(' ')))
+            print(_unit_change(spend_amount, lucky_num, threshold))
+        except:
+            break
+
+
+def _unit_change(unit10_num: int, _lucky_num: int = 2, unit: int = 4, out=''):
+    if unit10_num < unit:
+        out += str(unit10_num)
+        return sorted(out, reverse=True).count(str(_lucky_num))
+
+    rest = str(unit10_num % unit)
+    out += rest
+    unit10_num = unit10_num // unit
+    return _unit_change(unit10_num, _lucky_num, unit, out)
+
+
+from collections import Counter
+
+
+def handle_shuffle_sequence():
+    while True:
+        try:
+            seq, length = input().split(' ')
+            length = int(length)
+            print(_shuffle_seq(seq, length))
+        except:
+            break
+
+
+def _shuffle_seq(seq: str, length: int = 4):
+    if len(seq) % length == 0:
+        multiplier = len(seq) // length
+        _most_common = Counter(seq).most_common(1)[0][0]
+
+        ending2 = _most_common * multiplier
+        return int(ending2)  # todo error method
+        # ending_low=True
+        # for i in range(1,length,1):
+        #     target=str(int(ending2)+i)
+        #     if not seq.__contains__(target):
+        #         ending_low=False
+        #         break
+        #
+        # if ending_low:
+        #     return int(ending2)
+        # else:
+        #     return int(ending2)-length+1
+
+    return 10 * len(seq) // length - (len(seq) % length - 1)
+
+import re
+aeiou_match='aeiou'
+
+def handle_aeiou_flaw_seq():
+    # re.match("^[a]*[u]$","asdbuiodevauufgh")
+    re.findall("^a|e|i|o|u.a|e|i|o|u$","asdbuiodevauufgh")
+    return
+
+
+def _aeiou_flaw_seq(seq:str,flaw_num:int):
+
+    return
 
 
 if __name__ == '__main__':
