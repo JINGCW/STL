@@ -1,11 +1,11 @@
 #pragma once
 
-#define NUMBER_OF_LOGICAL_CORES   4
-#define NUMBER_OF_PHYSICAL_CORES  4
-#define TOTAL_VIRTUAL_MEMORY      14234
-#define TOTAL_PHYSICAL_MEMORY     8077
-#define AVAILABLE_VIRTUAL_MEMORY  2389
-#define AVAILABLE_PHYSICAL_MEMORY 1832
+#define NUMBER_OF_LOGICAL_CORES   12
+#define NUMBER_OF_PHYSICAL_CORES  6
+#define TOTAL_VIRTUAL_MEMORY      19189
+#define TOTAL_PHYSICAL_MEMORY     16245
+#define AVAILABLE_VIRTUAL_MEMORY  6915
+#define AVAILABLE_PHYSICAL_MEMORY 7900
 #define IS_64BIT                  1
 #define HAS_FPU                   1
 #define HAS_MMX                   1
@@ -19,5 +19,5 @@
 #define HAS_IA64                  0
 #define OS_NAME                   "Windows"
 #define OS_RELEASE                " Personal"
-#define OS_VERSION                " (Build 17134)"
+#define OS_VERSION                " (Build 19041)"
 #define OS_PLATFORM               "AMD64"
