@@ -12,7 +12,7 @@ extern "C" {
 
 LUALIB_API int luaopen_libExample(lua_State *L);
 
-};
+}
 
 //using namespace std;
 

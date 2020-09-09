@@ -4,8 +4,8 @@
 #define NUMBER_OF_PHYSICAL_CORES  6
 #define TOTAL_VIRTUAL_MEMORY      19189
 #define TOTAL_PHYSICAL_MEMORY     16245
-#define AVAILABLE_VIRTUAL_MEMORY  10258
-#define AVAILABLE_PHYSICAL_MEMORY 10022
+#define AVAILABLE_VIRTUAL_MEMORY  9388
+#define AVAILABLE_PHYSICAL_MEMORY 9194
 #define IS_64BIT                  1
 #define HAS_FPU                   1
 #define HAS_MMX                   1
