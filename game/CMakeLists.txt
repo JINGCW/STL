@@ -21,6 +21,8 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 #include_directories(tools/lutok2-master/include)
 #link_directories(tools/lutok2-master/include)
 
+add_subdirectory(sdl2)
+
 file(GLOB GAMES_SRCS
 #        "./*.cpp"
 #        "./*.h"
