@@ -14,4 +14,4 @@ local window_width=640
 local window_height=480
 local window_bpp=0
 local window_flags=0
-SDL_assert(sdl_module.init(sdl_module.SDL_INIT_EVERYTHING)==true,"Couldn't initialize SDL")
+--SDL_assert(sdl_module.init(sdl_module.SDL_INIT_EVERYTHING)==true,"Couldn't initialize SDL")

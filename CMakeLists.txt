@@ -10,7 +10,8 @@ set(PYTHON_INCLUDE_PATH D:/Anaconda3/envs/vconda_summer_charts)
 #set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(conda_sitepackage_dir D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages)
-set(LUA_DIR D:/lua/5.4)
+#set(LUA_DIR D:/lua/5.4)
+
 #set(CMAKE_C_FLAGS -m32)
 #set(CMAKE_CXX_FLAGS -m32)#todo error happen uncomment this line
 #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -43,6 +44,7 @@ option(USE_THIS_Python "set to use Python" ON)
 option(USE_ORIGIN_Torch "set to use origin torch, not python package" ON)
 option(USE_PythonPack_Pybind11 "set to use python sitepakcage pybind11" OFF)
 option(USE_Lua "set to use lua" ON)
+option(USE_SDL2 "set to use sdl2" ON)
 
 configure_file(
         "${PROJECT_SOURCE_DIR}/config.h.in"
@@ -52,6 +54,16 @@ configure_file(
 include_directories(tools/lutok2-master/include)
 
 message(STATUS "use this torch: ->${USE_THIS_Torch1}")
+
+if (USE_SDL2)
+    #    message("*******************${CMAKE_PREFIX_PATH}")
+    set(CMAKE_PREFIX_PATH D:/lua/SDL2-2.0.12)
+#    set(CMAKE_PREFIX_PATH D:/lua/5.3.4)
+    set(SDL2_LIBRARY_DIR D:/lua/SDL2-2.0.12/lib)
+    message("*******************${CMAKE_PREFIX_PATH}")
+    find_package(SDL2 REQUIRED)
+    message(STATUS "@@@@@@@@@@${CMAKE_PREFIX_PATH}")
+endif ()
 
 if (${USE_THIS_Torch1} STREQUAL "ON")
     set(CUDNN_LIBRARY_PATH D:/cuDNN/cuda/lib)
