@@ -10,8 +10,14 @@ set(PYTHON_INCLUDE_PATH D:/Anaconda3/envs/vconda_summer_charts)
 #set(Python3_FIND_VIRTUALENV "vconda_summer_charts")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(conda_sitepackage_dir D:/Anaconda3/envs/vconda_summer_charts/Lib/site-packages)
+#<<<<<<< HEAD
 #set(LUA_DIR D:/lua/5.4)
 
+#=======
+set(LUA_DIR D:/lua/5.4)
+
+#set(CMAKE_PREFIX_PATH ${LUA_DIR})
+#>>>>>>> refs/remotes/origin/develop
 #set(CMAKE_C_FLAGS -m32)
 #set(CMAKE_CXX_FLAGS -m32)#todo error happen uncomment this line
 #SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -128,7 +134,7 @@ if (USE_Lua)
     set(CMAKE_PREFIX_PATH ${LUA_DIR})
     set(Lua_INCLUDE_DIR ${LUA_DIR}/include)
     set(Lua_LIBRARY_DIR ${LUA_DIR}/lib)
-    find_package(Lua REQUIRED)
+    find_package(Lua 5.4 REQUIRED)
     if (NOT Lua_FOUND)
         message(Lua is not found!!!)
     else ()

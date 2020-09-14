@@ -26,19 +26,22 @@ add_subdirectory(sdl2)
 file(GLOB GAMES_SRCS
 #        "./*.cpp"
 #        "./*.h"
-        "lthis_object.h"
+#        "lthis_object.h"
         "ExampleObject.h"
 #        "python_dll_test.h"
 #        "python_dll_test.cpp"
-        "games.cpp"
+        "ExampleObject.cpp"
+#        "games.cpp"
+#        "my_math.c"
         )
 
 #aux_source_directory(${PROJECT_SOURCE_DIR}/tools/lutok2-master/include lutok2_SRCS)
 
 #set(LTARGET_NAME this_object__Object)
 set(LTARGET_NAME Example)
-add_library(${LTARGET_NAME} SHARED ${GAMES_SRCS})
+#set(LTARGET_NAME my_math)
+add_library(${LTARGET_NAME} SHARED ${GAMES_SRCS} ExampleObject.cpp my_math.c)
 message(STATUS "games ${PROJECT_SOURCE_DIR}")
 
 #set_target_properties(games PROPERTIES LINKER_LANGUAGE C++)
-#target_link_libraries(${LTARGET_NAME} ${Lua_LIBRARIES})
+target_link_libraries(${LTARGET_NAME} ${LUA_LIBRARIES})
