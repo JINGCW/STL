@@ -13,9 +13,14 @@ include_directories(
         ${SDL2_INCLUDE_DIR}
 )
 
-#link_directories(${SDL_LIBRARY_DIR})
+link_directories(${SDL_LIBRARY_DIR})
+FILE(GLOB sdl2c++SRCS
+        "./*.cpp"
+        "./*.h"
+        )
 
-add_executable(sdl2_c++ main.c)
+add_executable(sdl2_c++ main.cpp sdl2c++.rc ${sdl2c++SRCS})
 target_link_libraries(sdl2_c++
         ${SDL2_LIBRARIES}
+#        ${SDL2_image_LIBRARIES}
         )
