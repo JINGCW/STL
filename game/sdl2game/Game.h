@@ -6,6 +6,7 @@
 //#include <SDL_image.h>
 #include <string>
 #include <iostream>
+#include "TextureManager.h"
 
 using namespace std;
 
@@ -34,8 +35,10 @@ public:
 private:
     void texture_shown();
 
-    void animating_sprite_sheet(const string &file="assets/char9.bmp",std::size_t n_sheets=6);
+    void animating_sprite_sheet(const string &file="assets/char9.bmp",Uint8 n_sheets=6);
 
+    TextureManager M_texture_manager;
+    uint16_t M_curr_frame,M_curr_row;
     SDL_Texture *m_texture;
     SDL_Rect m_src_rect;
     SDL_Rect m_dest_rect;

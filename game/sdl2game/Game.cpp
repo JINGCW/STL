@@ -1,30 +1,33 @@
 #include "Game.h"
 
 void MGame::update(std::size_t n_sheets) {
-    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
-    cout << "nth_sheets: " << nth_sheets << endl;
+//    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
+    M_curr_frame = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
+    cout << "nth_sheets: " << M_curr_frame << endl;
 
-    if (nth_sheets >= 4) {
-        m_src_rect.y = 130;
-        m_src_rect.x = nth_sheets % 4 * 128;
-    }else
-    {
-        m_src_rect.x = 128 * nth_sheets;
-        m_src_rect.y = 0;
+    if (M_curr_frame >= 4) {
+//        m_src_rect.y = 130;
+//        m_src_rect.x = nth_sheets % 4 * 128;
+        M_curr_row = 2;
+        M_curr_frame %= 4;
+    } else {
+//        m_src_rect.x = 128 * nth_sheets;
+//        m_src_rect.y = 0;
+        M_curr_row = 1;
     }
     SDL_Delay(100);
 }
 
-void MGame::animating_sprite_sheet(const string &file, std::size_t n_sheets) {
+void MGame::animating_sprite_sheet(const string &file, Uint8 n_sheets) {
     auto surface = SDL_LoadBMP(file.c_str());
 //    auto surface = IMG_Load(file.c_str());
 
     m_texture = SDL_CreateTextureFromSurface(m_renderer, surface);
     SDL_FreeSurface(surface);
 
-    m_dest_rect.w=m_src_rect.w = 128;
-    m_dest_rect.h=m_src_rect.h = 200;
-    SDL_RenderCopyEx(m_renderer, m_texture, &m_src_rect, &m_dest_rect ,
+    m_dest_rect.w = m_src_rect.w = 128;
+    m_dest_rect.h = m_src_rect.h = 200;
+    SDL_RenderCopyEx(m_renderer, m_texture, &m_src_rect, &m_dest_rect,
                      0, nullptr, SDL_FLIP_NONE);
 }
 
@@ -66,7 +69,10 @@ void MGame::render() {
     //clean the renderer to draw the color
     SDL_RenderClear(m_renderer);
 //    texture_shown();
-    animating_sprite_sheet();
+//    animating_sprite_sheet();
+    M_texture_manager.draw("animate", 0, 0, 200, 128, m_renderer);
+    M_texture_manager.draw_frame("animate", 100, 100, 200, 128, M_curr_row,
+                                 M_curr_frame, m_renderer);
     //draw the screen
     SDL_RenderPresent(m_renderer);
 }
@@ -98,6 +104,7 @@ bool MGame::init(const char *title, int xpos, int ypos, int height, int width, i
 
     cout << "init success\n";
     m_running = true;
-    texture_shown();
+//    texture_shown();
+    M_texture_manager.load("assets/char9.bmp", "animate", m_renderer);
     return true;
 }
