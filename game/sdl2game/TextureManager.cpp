@@ -2,13 +2,13 @@
 
 void TextureManager::
 draw_frame(const string &texture_id, uint8_t xpos, uint8_t ypos, uint16_t height, uint16_t width,
-           uint16_t curr_row, uint16_t curr_frame, SDL_Renderer *renderer,
+           uint16_t curr_row, uint16_t curr_frame,SDL_Renderer *renderer,uint16_t offset,
            SDL_RendererFlip flip) {
     SDL_Rect src_rect, dest_rect;
 
     src_rect.x = curr_frame * width;
-//    src_rect.y = height * (curr_row - 1);
-    src_rect.y = 130 * (curr_row - 1);
+    src_rect.y = (height-offset) * (curr_row - 1);
+//    src_rect.y = 130 * (curr_row - 1);
     src_rect.w = dest_rect.w = width;
     src_rect.h = dest_rect.h = height;
     dest_rect.x = xpos;
