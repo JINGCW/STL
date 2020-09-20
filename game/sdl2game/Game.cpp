@@ -1,9 +1,15 @@
 #include "Game.h"
+#include "InputHandler.h"
+
+MGame *MGame::_instance = nullptr;
 
 void MGame::update(std::size_t n_sheets) {
 //    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
     M_curr_frame = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
     cout << "nth_sheets: " << M_curr_frame << endl;
+    M_vector2d.set_x(M_vector2d.get_x() + 1);
+    M_vector2d.set_y(M_vector2d.get_y() + 1);
+    cout << "xpos: " << M_vector2d.get_x() << "\n" << "ypos: " << M_vector2d.get_y() << endl;
 
     if (M_curr_frame >= 4) {
 //        m_src_rect.y = 130;
@@ -15,7 +21,7 @@ void MGame::update(std::size_t n_sheets) {
 //        m_src_rect.y = 0;
         M_curr_row = 1;
     }
-    SDL_Delay(100);
+//    SDL_Delay(100);
 }
 
 void MGame::animating_sprite_sheet(const string &file, Uint8 n_sheets) {
@@ -70,9 +76,14 @@ void MGame::render() {
     SDL_RenderClear(m_renderer);
 //    texture_shown();
 //    animating_sprite_sheet();
-    M_texture_manager.draw("animate", 0, 0, 200, 128, m_renderer);
-    M_texture_manager.draw_frame("animate", 100, 100, 200, 128, M_curr_row,
-                                 M_curr_frame, m_renderer);
+//    M_texture_manager.draw("animate", 0, 0, 200, 128, m_renderer);
+//    TextureManager::instance().draw("animate", 0, 0, 200, 128, m_renderer);
+    TextureManager::instance().draw_frame(
+            "animate", static_cast<int>(M_vector2d.get_x()),
+            static_cast<int>(M_vector2d.get_y()), 200, 128,
+            M_curr_row, M_curr_frame, m_renderer);
+//    M_texture_manager.draw_frame("animate", 100, 100, 200, 128, M_curr_row,
+//                                 M_curr_frame, m_renderer);
     //draw the screen
     SDL_RenderPresent(m_renderer);
 }
@@ -105,6 +116,9 @@ bool MGame::init(const char *title, int xpos, int ypos, int height, int width, i
     cout << "init success\n";
     m_running = true;
 //    texture_shown();
-    M_texture_manager.load("assets/char9.bmp", "animate", m_renderer);
+//    M_texture_manager.load("assets/char9.bmp", "animate", m_renderer);
+    TextureManager::instance().load("assets/char9.bmp", "animate", m_renderer);
+    InputHandler::instance()->init_joysticks();
+
     return true;
 }

@@ -1,13 +1,29 @@
 #include "Game.h"
+//#include <windows.h>
+
+//#undef main
 
 int main(int argc, char **argv) {
+//    SDL_SetMainReady();
+//    HWND windowHandle = GetConsoleWindow();
+//    ShowWindow(windowHandle,SW_SHOW);
     auto *game = new MGame();
+    M_Uint32 M_frame_begin, M_frame_interval;
+
     game->init("Chapter 1", 100, 100, 640, 400,
                SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     while (game->running()) {
+//        M_frame_begin = SDL_GetTicks();
+        frame_delay_begin
+
         game->handle_events();
         game->update();
         game->render();
+
+//        M_frame_interval = SDL_GetTicks() - M_frame_begin;
+//        if (M_frame_interval < M_delay_time)
+//            SDL_Delay(static_cast<M_Uint32>(M_delay_time - M_frame_interval));
+        frame_delay_end
     }
     game->clean();
 
