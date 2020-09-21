@@ -4,15 +4,21 @@ Game *G_game = nullptr;
 
 int main(int argc, char **argv)
 {
+    SDL_SetMainReady();
+
+    unsigned frame_begin, frame_interval;
     G_game = new Game();
 //    SDL_WINDOW_SHOWN;
     G_game->init("Chapter 1", 100, 100, 640, 480,
+//    G_game->init("Chapter 1", 100, 100, 7168, 480,
                  SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     while (G_game->running())
     {
+        fixed_frames_ps_begin
         G_game->handle_events();
         G_game->update();
         G_game->render();
+        fixed_frames_ps_end
     }
     G_game->clean();
 
