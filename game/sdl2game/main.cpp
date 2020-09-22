@@ -9,16 +9,20 @@ int main(int argc, char **argv) {
 //    ShowWindow(windowHandle,SW_SHOW);
     auto *game = new MGame();
     M_Uint32 M_frame_begin, M_frame_interval;
+    SDL_Event event;
 
-    game->init("Chapter 1", 100, 100, 640, 400,
+//    game->init("Chapter 1", 100, 100, 640, 400,
+    game->init("Chapter 1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+               1600, 800,
                SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     while (game->running()) {
+        SDL_PollEvent(&event);
 //        M_frame_begin = SDL_GetTicks();
         frame_delay_begin
 
-        game->handle_events();
+        game->handle_events(event);
         game->update();
-        game->render();
+        game->render(event);
 
 //        M_frame_interval = SDL_GetTicks() - M_frame_begin;
 //        if (M_frame_interval < M_delay_time)

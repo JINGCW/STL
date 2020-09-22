@@ -23,6 +23,10 @@ public:
             (*this) /= len;
     }
 
+    void reset()
+    {
+        this->xpos = this->ypos = 0;
+    }
     auto get_x() const { return xpos; }
 
     float get_y() const { return ypos; }

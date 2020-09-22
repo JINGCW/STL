@@ -14,11 +14,17 @@ using namespace std;
 
 class InputHandler {
     using type = InputHandler *;
+    using mouse_buttons = enum {
+        LEFT =0, MIDDLE, RIGHT
+    };
 public:
     static type _instance;
 
-    uint32_t get_x(uint8_t joystick_id, uint8_t stick)const;
-    uint32_t get_y(uint8_t joystick_id, uint8_t stick)const;
+    bool get_mouse_button_states(unsigned button_index)const;
+
+    uint32_t get_x(uint8_t joystick_id, uint8_t stick) const;
+
+    uint32_t get_y(uint8_t joystick_id, uint8_t stick) const;
 
     void init_joysticks();
 
@@ -39,17 +45,21 @@ public:
         return _instance;
     }
 
-    static void update();
+    void update();
+
+    void handle_events(SDL_Event);
 
     void clean();
 
 private:
-    InputHandler() = default;
+    InputHandler();
 
-    ~InputHandler() = default;
+    ~InputHandler();
 
-    shared_ptr<vector<SDL_Joystick *>> m_joysticks;
-    shared_ptr<vector<pair<Vector2D *, Vector2D *>>> m_joystick_axis_movement;
+//    shared_ptr<vector<bool>> m_mouse_button_states;
+    vector<bool> m_mouse_button_states;
+    vector<SDL_Joystick *> m_joysticks;
+    vector<pair<Vector2D *, Vector2D *>> m_joystick_axis_movement;
     bool m_input_handler_init = false;
 };
 

@@ -19,6 +19,7 @@ M_Integer M_delay_time = 1000.0f / M_fps;
 #define frame_delay_end M_frame_interval = SDL_GetTicks() - M_frame_begin;\
                 if (M_frame_interval < M_delay_time)\
                     SDL_Delay(static_cast<M_Uint32>(M_delay_time - M_frame_interval));
+#define DEBUG_m_velocity
 
 
 #endif //_PREFIX_CODE_H

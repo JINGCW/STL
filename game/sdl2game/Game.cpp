@@ -4,12 +4,26 @@
 MGame *MGame::_instance = nullptr;
 
 void MGame::update(std::size_t n_sheets) {
-//    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
+//    InputHandler::instance()->update();
+
+    //    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
     M_curr_frame = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
-    cout << "nth_sheets: " << M_curr_frame << endl;
-    M_vector2d.set_x(M_vector2d.get_x() + 1);
-    M_vector2d.set_y(M_vector2d.get_y() + 1);
-    cout << "xpos: " << M_vector2d.get_x() << "\n" << "ypos: " << M_vector2d.get_y() << endl;
+//    cout << "nth_sheets: " << M_curr_frame << endl;
+//    M_vector2d.set_x(M_vector2d.get_x() + 1);
+//    M_vector2d.set_y(M_vector2d.get_y() + 1);
+    if (InputHandler::instance()->get_mouse_button_states(LEFT))
+        m_velocity.set_x(m_velocity.get_x() + 1);
+    if (InputHandler::instance()->get_mouse_button_states(RIGHT))
+        m_velocity.set_x(m_velocity.get_x() - 1);
+#ifdef DEBUG_m_velocity
+    cout << "m_velocity.x: " << m_velocity.get_x()
+         << "                 " << "m_velocity.y: " << m_velocity.get_y() << endl;
+#endif
+    M_vector2d.reset();//reset to {0,0}
+    m_velocity += m_acceleration;
+    M_vector2d += m_velocity;
+
+//    cout << "xpos: " << M_vector2d.get_x() << "\n" << "ypos: " << M_vector2d.get_y() << endl;
 
     if (M_curr_frame >= 4) {
 //        m_src_rect.y = 130;
@@ -51,17 +65,23 @@ void MGame::texture_shown() {
     SDL_FreeSurface(surface);
 }
 
-void MGame::handle_events() {
-    SDL_Event event;
-    if (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                m_running = false;
-                break;
-            default:
-                break;
-        }
+void MGame::handle_events(SDL_Event event) {
+//    SDL_Event event;
+//    if (SDL_PollEvent(&event)) {
+    switch (event.type) {
+        case SDL_QUIT:
+            m_running = false;
+            break;
+        case SDL_MOUSEBUTTONUP:
+            InputHandler::instance()->handle_events(event);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            InputHandler::instance()->handle_events(event);
+            break;
+        default:
+            break;
     }
+//    }
 }
 
 void MGame::clean() {
@@ -71,17 +91,23 @@ void MGame::clean() {
     SDL_Quit();
 }
 
-void MGame::render() {
+void MGame::render(SDL_Event event) {
     //clean the renderer to draw the color
     SDL_RenderClear(m_renderer);
 //    texture_shown();
 //    animating_sprite_sheet();
-//    M_texture_manager.draw("animate", 0, 0, 200, 128, m_renderer);
 //    TextureManager::instance().draw("animate", 0, 0, 200, 128, m_renderer);
-    TextureManager::instance().draw_frame(
-            "animate", static_cast<int>(M_vector2d.get_x()),
-            static_cast<int>(M_vector2d.get_y()), 200, 128,
-            M_curr_row, M_curr_frame, m_renderer);
+    if (event.type == SDL_MOUSEBUTTONDOWN)
+        TextureManager::instance().draw_frame(
+                "animate", static_cast<int>(M_vector2d.get_x()),
+                static_cast<int>(M_vector2d.get_y()), 200, 128,
+                M_curr_row, M_curr_frame, m_renderer);
+    else
+        TextureManager::instance().draw(
+                "animate",
+                M_vector2d.get_x(), M_vector2d.get_y(),
+                200, 128,m_renderer);
+    cout << "M_vector2d.x: " << M_vector2d.get_x() << "            " << "M_vector2d.y: " << M_vector2d.get_y() << endl;
 //    M_texture_manager.draw_frame("animate", 100, 100, 200, 128, M_curr_row,
 //                                 M_curr_frame, m_renderer);
     //draw the screen
@@ -118,7 +144,11 @@ bool MGame::init(const char *title, int xpos, int ypos, int height, int width, i
 //    texture_shown();
 //    M_texture_manager.load("assets/char9.bmp", "animate", m_renderer);
     TextureManager::instance().load("assets/char9.bmp", "animate", m_renderer);
-    InputHandler::instance()->init_joysticks();
+    TextureManager::instance().draw(
+            "animate",
+            M_vector2d.get_x(), M_vector2d.get_y(),
+            200, 128,m_renderer);
+//    InputHandler::instance()->init_joysticks();
 
     return true;
 }

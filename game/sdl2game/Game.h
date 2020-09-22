@@ -9,6 +9,7 @@
 #include <iostream>
 #include "TextureManager.h"
 #include "Vector2D.h"
+#include "InputHandler.h"
 
 using namespace std;
 
@@ -18,6 +19,9 @@ extern "C" {
 #endif
 class MGame {
     using type = MGame *;
+    using mouse_buttons = enum MouseButtons {
+        LEFT = 0, MIDDLE, RIGHT
+    };
 public:
     static type _instance;
 
@@ -33,11 +37,11 @@ public:
 
     bool init(const char *title, int xpos, int ypos, int height, int width, int flags);
 
-    void render();
+    void render(SDL_Event);
 
     virtual void update(std::size_t n_sheets = 6);
 
-    void handle_events();
+    void handle_events(SDL_Event event);
 
     void clean();
 
@@ -49,7 +53,7 @@ private:
     void animating_sprite_sheet(const string &file = "assets/char9.bmp", Uint8 n_sheets = 6);
 
 //    TextureManager M_texture_manager;
-    Vector2D M_vector2d;
+    Vector2D M_vector2d, m_velocity{500, 500}, m_acceleration{0, 0};
     uint16_t M_curr_frame, M_curr_row;
     SDL_Texture *m_texture;
     SDL_Rect m_src_rect;
