@@ -3,6 +3,8 @@
 
 void Game::update(size_t n_sheets)
 {
+    InputHandler::instance()->update();
+
 //    int n_sheets_selected = int((SDL_GetTicks() / 100) % n_sheets);
     M_curr_frame = int((SDL_GetTicks() / 100) % n_sheets);
 //    cout << "n_sheets_selected" << M_curr_frame << endl;
@@ -21,10 +23,15 @@ void Game::update(size_t n_sheets)
     }
 //    m_vector2d.set_x(m_vector2d.get_x() + 1);
 //    m_vector2d.set_y(m_vector2d.get_y() + 1);
-    m_velocity += m_acceleration;
+//    m_velocity += m_acceleration;
+    if (InputHandler::instance()->get_mouse_button_state(1))
+        m_velocity.set_x(1);
+    if (InputHandler::instance()->get_mouse_button_state(3))
+        m_velocity.set_x(-1);
     m_vector2d += m_velocity;
+
 #ifdef Game_DEBUG_m_vector2d
-    cout << "m_vector2d.x: " << m_vector2d.get_x()<<"                "
+    cout << "m_vector2d.x: " << m_vector2d.get_x() << "                "
          << "m_vector2d.y: " << m_vector2d.get_y() << endl;
 #endif
 //    mb_dest_rectangle.x = mb_src_rectangle.x;//control rectangle move
@@ -89,6 +96,7 @@ void Game::mario_bmp_show()
 void Game::handle_events()
 {
     SDL_Event event;
+
     if (SDL_PollEvent(&event))
     {
         switch (event.type)
@@ -104,6 +112,8 @@ void Game::handle_events()
 
 void Game::clean()
 {
+    InputHandler::instance()->clean();
+
     cout << "cleaning game..." << endl;
     SDL_DestroyWindow(mb_window);
     SDL_DestroyRenderer(mb_renderer);

@@ -5,6 +5,7 @@
 #include "prefix_code.h"
 #include "Vector2D.h"
 #include "TextureManager.h"
+#include "InputHandler.h"
 
 #include <string>
 #include <iostream>
@@ -61,7 +62,7 @@ public:
 private:
     //    TextureManager M_texture_mgr;
 //    shared_ptr<Vector2D> m_vector2d;
-    Vector2D m_vector2d, m_velocity{1, 1}, m_acceleration{0.1, 0.1};
+    Vector2D m_vector2d, m_velocity{0, 0}, m_acceleration{0.1, 0.1};
     static type _instance;
     uint32_t M_curr_frame;
     SDL_Texture *mb_texture;
