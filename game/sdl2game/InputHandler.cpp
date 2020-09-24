@@ -3,12 +3,23 @@
 
 InputHandler *InputHandler::_instance = nullptr;
 
+bool InputHandler::is_key_down(SDL_Scancode key) {
+    if (m_key_state) {
+        if (m_key_state[key] == 1)
+            return true;
+        return false;
+    }
+
+    return false;
+}
+
 bool InputHandler::get_mouse_button_states(unsigned int button_index) const {
     return m_mouse_button_states.at(button_index);
 }
 
 InputHandler::InputHandler() {
     m_mouse_button_states.assign(3, false);
+    m_key_state = SDL_GetKeyboardState(0);
 }
 
 InputHandler::~InputHandler() {
@@ -37,26 +48,28 @@ uint32_t InputHandler::get_x(uint8_t joystick_id, uint8_t stick) const {
 }
 
 void InputHandler::handle_events(SDL_Event event) {
-    if (event.type == SDL_MOUSEBUTTONDOWN) {
-        if (event.button.button == SDL_BUTTON_LEFT)
-            m_mouse_button_states.at(LEFT) = true;
+    m_key_state = SDL_GetKeyboardState(0);
 
-        if (event.button.button == SDL_BUTTON_MIDDLE)
-            m_mouse_button_states.at(MIDDLE) = true;
-        if (event.button.button == SDL_BUTTON_RIGHT)
-            m_mouse_button_states.at(RIGHT) = true;
-
-    }
-    if (event.type == SDL_MOUSEBUTTONUP) {
-        if (event.button.button == SDL_BUTTON_LEFT)
-            m_mouse_button_states.at(LEFT) = false;
-
-        if (event.button.button == SDL_BUTTON_MIDDLE)
-            m_mouse_button_states.at(MIDDLE) = false;
-        if (event.button.button == SDL_BUTTON_RIGHT)
-            m_mouse_button_states.at(RIGHT) = false;
-
-    }
+//    if (event.type == SDL_MOUSEBUTTONDOWN) {
+//        if (event.button.button == SDL_BUTTON_LEFT)
+//            m_mouse_button_states.at(LEFT) = true;
+//
+//        if (event.button.button == SDL_BUTTON_MIDDLE)
+//            m_mouse_button_states.at(MIDDLE) = true;
+//        if (event.button.button == SDL_BUTTON_RIGHT)
+//            m_mouse_button_states.at(RIGHT) = true;
+//
+//    }
+//    if (event.type == SDL_MOUSEBUTTONUP) {
+//        if (event.button.button == SDL_BUTTON_LEFT)
+//            m_mouse_button_states.at(LEFT) = false;
+//
+//        if (event.button.button == SDL_BUTTON_MIDDLE)
+//            m_mouse_button_states.at(MIDDLE) = false;
+//        if (event.button.button == SDL_BUTTON_RIGHT)
+//            m_mouse_button_states.at(RIGHT) = false;
+//
+//    }
 
 }
 

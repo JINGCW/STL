@@ -15,12 +15,12 @@ using namespace std;
 class InputHandler {
     using type = InputHandler *;
     using mouse_buttons = enum {
-        LEFT =0, MIDDLE, RIGHT
+        LEFT = 0, MIDDLE, RIGHT
     };
 public:
     static type _instance;
 
-    bool get_mouse_button_states(unsigned button_index)const;
+    bool get_mouse_button_states(unsigned button_index) const;
 
     uint32_t get_x(uint8_t joystick_id, uint8_t stick) const;
 
@@ -51,12 +51,15 @@ public:
 
     void clean();
 
+    bool is_key_down(SDL_Scancode key);
+
 private:
     InputHandler();
 
     ~InputHandler();
 
 //    shared_ptr<vector<bool>> m_mouse_button_states;
+    const uint8_t *m_key_state;
     vector<bool> m_mouse_button_states;
     vector<SDL_Joystick *> m_joysticks;
     vector<pair<Vector2D *, Vector2D *>> m_joystick_axis_movement;

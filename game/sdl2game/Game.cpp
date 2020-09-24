@@ -3,9 +3,24 @@
 
 MGame *MGame::_instance = nullptr;
 
+void MGame::key_board_event_handle() {
+    if (InputHandler::instance()->is_key_down(SDL_SCANCODE_RIGHT))
+        m_velocity.set_x(m_velocity.get_x() + 2);
+    if (InputHandler::instance()->is_key_down(SDL_SCANCODE_LEFT))
+        m_velocity.set_x(m_velocity.get_x() - 2);
+    if (InputHandler::instance()->is_key_down(SDL_SCANCODE_UP))
+        m_velocity.set_y(m_velocity.get_y() - 2);
+    if (InputHandler::instance()->is_key_down(SDL_SCANCODE_DOWN))
+        m_velocity.set_y(m_velocity.get_y() + 2);
+}
+
+Vector2D MGame::get_mouse_position() const {
+    return m_mouse_position;
+}
+
 void MGame::update(std::size_t n_sheets) {
 //    InputHandler::instance()->update();
-
+    key_board_event_handle();
     //    auto nth_sheets = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
     M_curr_frame = static_cast<int>((SDL_GetTicks() / 100) % n_sheets);
 //    cout << "nth_sheets: " << M_curr_frame << endl;
@@ -20,6 +35,7 @@ void MGame::update(std::size_t n_sheets) {
          << "                 " << "m_velocity.y: " << m_velocity.get_y() << endl;
 #endif
     M_vector2d.reset();//reset to {0,0}
+//    m_velocity = (m_mouse_position - M_vector2d) ;
     m_velocity += m_acceleration;
     M_vector2d += m_velocity;
 
@@ -69,14 +85,24 @@ void MGame::handle_events(SDL_Event event) {
 //    SDL_Event event;
 //    if (SDL_PollEvent(&event)) {
     switch (event.type) {
+        case SDL_KEYDOWN:
+            InputHandler::instance()->handle_events(event);
+            break;
+        case SDL_KEYUP:
+            InputHandler::instance()->handle_events(event);
+            break;
         case SDL_QUIT:
             m_running = false;
             break;
-        case SDL_MOUSEBUTTONUP:
-            InputHandler::instance()->handle_events(event);
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-            InputHandler::instance()->handle_events(event);
+//        case SDL_MOUSEBUTTONUP:
+//            InputHandler::instance()->handle_events(event);
+//            break;
+//        case SDL_MOUSEBUTTONDOWN:
+//            InputHandler::instance()->handle_events(event);
+//            break;
+        case SDL_MOUSEMOTION:
+            m_mouse_position.set_x(event.motion.x);
+            m_mouse_position.set_y(event.motion.y);
             break;
         default:
             break;
@@ -97,17 +123,18 @@ void MGame::render(SDL_Event event) {
 //    texture_shown();
 //    animating_sprite_sheet();
 //    TextureManager::instance().draw("animate", 0, 0, 200, 128, m_renderer);
+//    cout << "M_vector2d.x: " << M_vector2d.get_x() << "            " << "M_vector2d.y: " << M_vector2d.get_y() << endl;
+
     if (event.type == SDL_MOUSEBUTTONDOWN)
         TextureManager::instance().draw_frame(
-                "animate", static_cast<int>(M_vector2d.get_x()),
-                static_cast<int>(M_vector2d.get_y()), 200, 128,
+                "animate", static_cast<uint8_t>(M_vector2d.get_x()),
+                static_cast<uint8_t>(M_vector2d.get_y()), 200, 128,
                 M_curr_row, M_curr_frame, m_renderer);
     else
         TextureManager::instance().draw(
                 "animate",
                 M_vector2d.get_x(), M_vector2d.get_y(),
-                200, 128,m_renderer);
-    cout << "M_vector2d.x: " << M_vector2d.get_x() << "            " << "M_vector2d.y: " << M_vector2d.get_y() << endl;
+                200, 128, m_renderer);
 //    M_texture_manager.draw_frame("animate", 100, 100, 200, 128, M_curr_row,
 //                                 M_curr_frame, m_renderer);
     //draw the screen
@@ -147,7 +174,7 @@ bool MGame::init(const char *title, int xpos, int ypos, int height, int width, i
     TextureManager::instance().draw(
             "animate",
             M_vector2d.get_x(), M_vector2d.get_y(),
-            200, 128,m_renderer);
+            200, 128, m_renderer);
 //    InputHandler::instance()->init_joysticks();
 
     return true;

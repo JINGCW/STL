@@ -47,13 +47,17 @@ public:
 
     bool running() { return m_running; }
 
+    Vector2D get_mouse_position() const;
+
+    void key_board_event_handle();
+
 private:
     void texture_shown();
 
     void animating_sprite_sheet(const string &file = "assets/char9.bmp", Uint8 n_sheets = 6);
 
 //    TextureManager M_texture_manager;
-    Vector2D M_vector2d, m_velocity{500, 500}, m_acceleration{0, 0};
+    Vector2D M_vector2d{500, 500}, m_velocity{0,0}, m_acceleration{0, 0}, m_mouse_position;
     uint16_t M_curr_frame, M_curr_row;
     SDL_Texture *m_texture;
     SDL_Rect m_src_rect;

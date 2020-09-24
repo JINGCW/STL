@@ -6,7 +6,7 @@ TextureManager &TextureManager::instance() {
 }
 
 void TextureManager::
-draw_frame(const string &texture_id, uint8_t xpos, uint8_t ypos, uint16_t height, uint16_t width,
+draw_frame(const string &texture_id, int xpos, int ypos, uint16_t height, uint16_t width,
            uint16_t curr_row, uint16_t curr_frame, SDL_Renderer *renderer, uint16_t offset,
            SDL_RendererFlip flip) {
     SDL_Rect src_rect, dest_rect;
@@ -19,13 +19,14 @@ draw_frame(const string &texture_id, uint8_t xpos, uint8_t ypos, uint16_t height
     dest_rect.x = xpos;
     dest_rect.y = ypos;
 
+    cout << "xpos: " << xpos << "           " << "ypos: " << ypos << endl;
+
     SDL_RenderCopyEx(renderer, texture_map[texture_id], &src_rect, &dest_rect,
                      0, nullptr, flip);
-
 }
 
 void TextureManager::
-draw(const string &texture_id, uint8_t xpos, uint8_t ypos, uint16_t height, uint16_t width,
+draw(const string &texture_id, int xpos, int ypos, uint16_t height, uint16_t width,
      SDL_Renderer *renderer, SDL_RendererFlip flip) {
     SDL_Rect src_rect, dest_rect;
 
