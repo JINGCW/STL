@@ -22,7 +22,7 @@ elseif (GNU OR Clang)
     add_compile_definitions("-std=c++1z")
 endif ()
 
-link_directories(${SDL_LIBRARY_DIR})
+#link_directories(${SDL2_LIBRARY_DIR})
 FILE(GLOB sdl2c++SRCS
         "./*.cpp"
         "./*.h"
@@ -36,5 +36,5 @@ add_executable(sdl2_c++ main.cpp sdl2c++.rc ${sdl2c++SRCS})
 #set_target_properties(sdl2_c++ PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 target_link_libraries(sdl2_c++
         ${SDL2_LIBRARIES}
-        #        ${SDL2_image_LIBRARIES}
+        ${SDL2_mixer_LIBRARIES}
         )
