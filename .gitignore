@@ -18,3 +18,5 @@ _main.cc
 *.dll
 *.exe
 
+game/mario/files
+game/mario/cmake
