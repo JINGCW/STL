@@ -20,3 +20,8 @@ _main.cc
 
 game/mario/files
 game/mario/cmake
+game/fmod_api_core_ex/bin
+game/fmod_api_core_ex/media
+game/fmod_api_core_ex/plugins
+game/fmod_api_core_ex/vs2017
+game/fmod_api_core_ex/vs2019
