@@ -82,22 +82,39 @@ int FMOD_Main() {
 //    result = channel->setPaused(!paused);\
 //    ERRCHECK(result);
 #define toggle_music
+    int n = 0;
+    bool channel_playing = false;
     do {
         Common_Update();
 //        result = sound->getNumSubSounds(&numsubsounds);
 //        ERRCHECK(result);
 //        cout << "BTN_ACTION1 numsubsounds " << numsubsounds << endl;
 //        Common_Draw("BTN_ACTION1 numsubsounds %d", numsubsounds);
-
+//        if (n == 200)
+//            channel->stop();
+#if defined(toggle_music)
+//        Common_Draw("gPressedButtons :%d", gPressedButtons);
+//        Common_Draw("gDownButtons :%d", gDownButtons);
+#endif
         if (Common_BtnPress(BTN_ACTION1)) {
             toggle_music
+//            channel->setPaused(true);
+//            channel->stop();
 //            bool paused;
 //            channel->getPaused(&paused);
 //            if (!paused)
 //                channel->setPaused(true);
 //            FMOD::Sound *renew_music;
 //            sound->getSubSound(0, &renew_music);
-
+            if (channel) {
+                result = channel->isPlaying(&channel_playing);
+                ERRCHECK(result);
+                if (channel_playing) {
+                    Common_Draw("Channel Is Playing...");
+                    channel->stop();
+                    Common_Sleep(1000);
+                }
+            }
             result = sound->getNumSubSounds(&numsubsounds);
             ERRCHECK(result);
             if (numsubsounds) {
@@ -109,6 +126,7 @@ int FMOD_Main() {
             } else {
                 sound_to_play = sound;
             }
+//            channel->stop();
             result = system->playSound(sound_to_play, 0, false, &channel);
 //            result = system->playSound(renew_music, 0, false, &channel);
             ERRCHECK(result);
@@ -180,8 +198,9 @@ int FMOD_Main() {
                         lenms / 1000 / 60, lenms / 1000 % 60, lenms / 10 % 100,
                         paused ? "Paused " : playing ? "Playing" : "Stopped");
             Common_Draw("Channels Playing %d", channelsplaying);
+            Common_Draw("Flush times %d", n);
         }
-
+        ++n;
         Common_Sleep(50);
     } while (!Common_BtnPress(BTN_QUIT));
 

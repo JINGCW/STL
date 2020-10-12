@@ -36,3 +36,5 @@ inline void Common_Mutex_Leave(Common_Mutex *mutex)
     LeaveCriticalSection(mutex);
 }
 
+static unsigned int gPressedButtons = 0;
+static unsigned int gDownButtons = 0;

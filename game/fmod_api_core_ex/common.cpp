@@ -59,8 +59,11 @@ void Common_Draw(const char *format, ...)
     char *stringPtr = string;
 
     va_list args;
+//    __crt_va_start()
     va_start(args, format);
     Common_vsnprintf(string, 1024, format, args);
+//    _vsnprintf
+//    __crt_va_end()
     va_end(args);
     string[1023] = '\0';
 
