@@ -48,7 +48,7 @@ void Core::main_loop() {
         SDL_RenderClear(rR);
 
         SDL_RenderFillRect(rR, NULL);
-        oSMBLOGO->Draw(rR, 0,0);
+        oSMBLOGO->Draw(rR, 80,48);
 //        Draw();
 
         SDL_RenderPresent(rR);
