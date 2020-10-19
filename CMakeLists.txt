@@ -27,7 +27,7 @@ option(USE_Lua "set to use lua" OFF)
 option(USE_SDL2 "set to use sdl2" ON)
 option(USE_SDL2_Image "set to use sdl2_image" ON)
 option(USE_SDL2_mixer "set to use sdl2_mixer" ON)
-option(USE_FMOD "set to use fmod" ON)
+option(USE_FMOD "set to use fmod" OFF)
 
 
 #set(CMAKE_PREFIX_PATH ${LUA_DIR})
