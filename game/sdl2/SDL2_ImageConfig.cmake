@@ -1,0 +1,3 @@
+set(SDL2_mixer_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include")
+set(SDL2_mixer_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/lib/SDL2_image.lib")
+string(STRIP "${SDL2_mixer_LIBRARIES}" SDL2_mixer_LIBRARIES)

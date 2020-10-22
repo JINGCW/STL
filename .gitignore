@@ -17,4 +17,14 @@ _main.cc
 *.pyd
 *.dll
 *.exe
+__MACOSX/
+Menu Snappr.app/
+zip/
+WidgetLib1.03/
 
+game/sdl2/SDL_Game_Dev_src/Alien Attack
+game/sdl2/SDL_Game_Dev_src/assets used in the book
+game/sdl2/SDL_Game_Dev_src/common-framework
+game/sdl2/SDL_Game_Dev_src/Conan the Caveman
+game/sdl2/SDL_Game_Dev_src/tinyxml
+game/sdl2/SDL_Game_Dev_src/zlib128-dll

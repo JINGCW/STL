@@ -13,7 +13,7 @@ TextureManager *TextureManager::M_instance()
 }
 
 void TextureManager::
-draw_frame(const string &id, uint8_t xpos, uint8_t ypos, uint16_t height,
+draw_frame(const string &id, int xpos, int ypos, uint16_t height,
            uint16_t width, uint32_t curr_row, uint32_t curr_frame,
            SDL_Renderer *renderer, uint32_t offset, SDL_RendererFlip flip)
 {

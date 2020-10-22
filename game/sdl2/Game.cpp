@@ -1,10 +1,66 @@
 #include "Game.h"
 
+Game::type Game::_instance = nullptr;
+
+bool Game::is_key_down(SDL_Scancode key)
+{
+    {
+        if (this_m_key_state != 0)
+        {
+            if (this_m_key_state[key])
+                return true;
+            return false;
+        }
+
+        return true;
+    }
+}
+
+void Game::jump(SDL_Event &event)
+{
+    if (event.type == SDL_MOUSEBUTTONDOWN)
+    {
+//        if (event.button.button==sdl_button_)
+        //    jump_height = 32 * height + 24.0f;
+        jump_height = 200;
+//    current_jump_height = 0;
+        current_jump_speed = start_jump_speed;
+
+        if (current_jump_height <= jump_height)
+        {
+            jump_state = 1;
+            current_jump_height += gravity;
+            if (current_jump_height > jump_height)
+                current_jump_height = jump_height;
+        } else
+        {
+            jump_state = 0;
+            current_jump_height -= gravity;
+            if (current_jump_height < 0)
+                current_jump_height = 0;
+        }
+    }
+}
+
+void Game::keyboard_event_handle()
+{
+    auto object = InputHandler::instance();
+
+    if (object->is_key_down(SDL_SCANCODE_LEFT))
+        m_velocity.set_x(m_velocity.get_x() - 2);
+    if (object->is_key_down(SDL_SCANCODE_RIGHT))
+        m_velocity.set_x(m_velocity.get_x() + 2);
+    if (object->is_key_down(SDL_SCANCODE_UP))
+        m_velocity.set_y(m_velocity.get_y() - 2);
+    if (object->is_key_down(SDL_SCANCODE_DOWN))
+        m_velocity.set_y(m_velocity.get_y() + 2);
+}
 
 void Game::update(size_t n_sheets)
 {
+    m_vector2d.reset();
     InputHandler::instance()->update();
-
+    keyboard_event_handle();
 //    int n_sheets_selected = int((SDL_GetTicks() / 100) % n_sheets);
     M_curr_frame = int((SDL_GetTicks() / 100) % n_sheets);
 //    cout << "n_sheets_selected" << M_curr_frame << endl;
@@ -24,18 +80,20 @@ void Game::update(size_t n_sheets)
 //    m_vector2d.set_x(m_vector2d.get_x() + 1);
 //    m_vector2d.set_y(m_vector2d.get_y() + 1);
 //    m_velocity += m_acceleration;
-    if (InputHandler::instance()->get_mouse_button_state(1))
-        m_velocity.set_x(1);
-    if (InputHandler::instance()->get_mouse_button_state(3))
-        m_velocity.set_x(-1);
+    if (InputHandler::instance()->get_mouse_button_state(LEFT))
+        m_velocity.set_x(m_velocity.get_x() + 2);
+    if (InputHandler::instance()->get_mouse_button_state(RIGHT))
+        m_velocity.set_x(m_velocity.get_x() - 2);
     m_vector2d += m_velocity;
 
+#undef Game_DEBUG_m_vector2d
 #ifdef Game_DEBUG_m_vector2d
     cout << "m_vector2d.x: " << m_vector2d.get_x() << "                "
          << "m_vector2d.y: " << m_vector2d.get_y() << endl;
 #endif
 //    mb_dest_rectangle.x = mb_src_rectangle.x;//control rectangle move
 //    SDL_Delay(100);
+    m_game_state_machine->update();
 }
 
 void Game::animation_sprite_sheet(const char *file)
@@ -96,13 +154,23 @@ void Game::mario_bmp_show()
 void Game::handle_events()
 {
     SDL_Event event;
+    this_m_key_state = SDL_GetKeyboardState(nullptr);
 
     if (SDL_PollEvent(&event))
     {
+        if (is_key_down(SDL_SCANCODE_RETURN))
+            m_game_state_machine->change(new PlayerState());
+
         switch (event.type)
         {
             case SDL_QUIT:
                 mb_running = false;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                InputHandler::instance()->handle_event(event);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                InputHandler::instance()->handle_event(event);
                 break;
             default:
                 break;
@@ -133,11 +201,12 @@ void Game::render()
 //    M_texture_mgr.draw_frame("animate", 100, 100, 200,
 //                             128, M_curr_row, M_curr_frame, mb_renderer);
     singleton.draw_frame("animate",
-                         static_cast<uint8_t>(m_vector2d.get_x()),
-                         static_cast<uint8_t>(m_vector2d.get_y()),
+                         static_cast<int >(m_vector2d.get_x()),
+                         static_cast<int >(m_vector2d.get_y()),
                          200, 128,
                          M_curr_row, M_curr_frame,
                          mb_renderer);
+    m_game_state_machine->render();
 
     //draw the screen
     SDL_RenderPresent(mb_renderer);
@@ -177,8 +246,22 @@ bool Game::init(const char *title, int xpos, int ypos, int height,
 
     cout << "init success..." << endl;
     mb_running = true;
+
+    std::string fileName = "assets/ico2.bmp";
+    SDL_Surface *loadedSurface = SDL_LoadBMP(fileName.c_str());
+    SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
+
+    SDL_SetWindowIcon(mb_window, loadedSurface);
+    SDL_FreeSurface(loadedSurface);
 //    M_texture_mgr.load("assets/char9.bmp", "animate", mb_renderer);
     singleton.load("assets/char9.bmp", "animate", mb_renderer);
-
+    cout << "game_states " << MENU << endl;
+    // ---- Game State
+    m_curr_game_state = MENU;
+    m_game_state_machine = new Game_fsm();
+    m_game_state_machine->change(new MenuState());
+    // ---- Game State
+    m_music = new Music();
+    m_music->PlayMusic(Music::mOVERWORLD);
     return true;
 }

@@ -12,6 +12,7 @@ message(STATUS "@@@SDL2_LIBRARY_DIR->${SDL2_LIBRARY_DIR}")
 include_directories(
         ${SDL2_INCLUDE_DIR}
 )
+add_subdirectory("SDL_Game_Dev_src/Conan the Caveman")
 #include_directories(
 #        ${SDL2_Image_INCLUDE_DIR}
 #)
@@ -31,4 +32,5 @@ add_executable(sdl2_c++ main.cc sdl2c++.rc ${SDL2C++SRCS})
 target_link_libraries(sdl2_c++
         ${SDL2_LIBRARIES}
 #        ${SDL2_image_LIBRARIES}
+        ${SDL2_mixer_LIBRARIES}
         )

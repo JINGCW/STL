@@ -43,7 +43,7 @@ public:
               uint16_t height, uint16_t width, SDL_Renderer *renderer,
               SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    void draw_frame(const string &id, uint8_t xpos, uint8_t ypos,
+    void draw_frame(const string &id, int xpos, int ypos,
                     uint16_t height, uint16_t width, uint32_t curr_row,
                     uint32_t curr_frame, SDL_Renderer *renderer,
                     uint32_t offset = 70,

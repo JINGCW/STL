@@ -20,6 +20,9 @@ public:
 
     ~Vector2D() = default;
 
+    void reset()
+    { xpos = ypos = 0; }
+
     void normalize()
     {
         float len = length();
