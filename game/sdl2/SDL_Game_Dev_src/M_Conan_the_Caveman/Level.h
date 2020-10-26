@@ -10,14 +10,14 @@
 MCC_begin
     struct Tileset
     {
-        MCC_Uint32 firstGridID;
-        MCC_Uint32 tileWidth;
-        MCC_Uint32 tileHeight;
-        MCC_Uint32 spacing;
-        MCC_Uint32 margin;
-        MCC_Uint32 width;
-        MCC_Uint32 height;
-        MCC_Uint32 numColumns;
+        MCC_Sint32 firstGridID;
+        MCC_Sint32 tileWidth;
+        MCC_Sint32 tileHeight;
+        MCC_Sint32 spacing;
+        MCC_Sint32 margin;
+        MCC_Sint32 width;
+        MCC_Sint32 height;
+        MCC_Sint32 numColumns;
         string name;
     };
 

@@ -90,7 +90,7 @@ if (USE_SDL2_image)
     set(SDL2_image_LIBRARY_DIR ${SDL2_image_DIR}/lib)
     set(CMAKE_LIBRARY_PATH ${SDL2_image_LIBRARY_DIR})
 
-    #    include_directories(${SDL2_image_INCLUDE_DIR})
+    include_directories(${SDL2_image_INCLUDE_DIR})
     message(STATUS "<<<>>>SDL2_image_INCLUDE_DIR->${SDL2_image_INCLUDE_DIR}")
     find_package(SDL2_image REQUIRED)
 else ()
