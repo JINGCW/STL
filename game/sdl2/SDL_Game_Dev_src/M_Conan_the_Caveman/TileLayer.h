@@ -12,7 +12,7 @@ MCC_begin
     class TileLayer : public Layer
     {
     public:
-        TileLayer(MCC_Uint32 tile_size, const vector<Tileset *> &tile_sets);
+        TileLayer(MCC_Uint32 tile_size, const vector<Tileset > &tile_sets);
 
         virtual void update();
 

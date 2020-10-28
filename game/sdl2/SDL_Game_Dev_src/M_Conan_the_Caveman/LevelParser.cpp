@@ -1,5 +1,7 @@
 #include "LevelParser.h"
 #include "TextureManager.h"
+#include "TileLayer.h"
+#include <zlib.h>
 
 MCC_begin
     Level *LevelParser::Parse_Level(const char *File)
@@ -31,7 +33,7 @@ MCC_begin
     }
 
     void LevelParser::Parse_TileSets(TiXmlElement *TileSetRoot,
-                                     vector<Tileset *> *TileSets)
+                                     vector<Tileset > *TileSets)
     {
     //first add the tileset to texture manager
         TextureManager::Instance()->load(
@@ -50,6 +52,16 @@ MCC_begin
         TileSetRoot->Attribute("firstgrid", &tileset.firstGridID);
         TileSetRoot->Attribute("tilewidth", &tileset.tileWidth);
         TileSetRoot->Attribute("tileheight", &tileset.tileHeight);
-        TileSetRoot->Attribute("spacing")
+        TileSetRoot->Attribute("spacing", &tileset.spacing);
+        TileSetRoot->Attribute("margin", &tileset.margin);
+        tileset.name = TileSetRoot->Attribute("name");
+        tileset.numColumns = tileset.width / (tileset.tileWidth + tileset.spacing);
+
+        TileSets->push_back(tileset);
+    }
+    void LevelParser::Parse_TileLayer(TiXmlElement *TileElement, vector<Layer *> *Layers,
+                                      const vector<Tileset> *TileSets)
+    {
+        auto *_tile_layer = new TileLayer(tile_size, *TileSets);
     }
 MCC_end

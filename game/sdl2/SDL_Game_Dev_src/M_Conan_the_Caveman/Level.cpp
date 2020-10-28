@@ -1,7 +1,7 @@
 #include "Level.h"
 
 MCC_begin
-    vector<Tileset *>* Level::get_tilesets()
+    vector<Tileset >* Level::get_tilesets()
     {
         return &o_tilesets;
     }

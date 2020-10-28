@@ -15,10 +15,10 @@ MCC_begin
         Level *Parse_Level(const char *File);
 
     private:
-        void Parse_TileSets(TiXmlElement *TileSetRoot, vector<Tileset *> *TileSets);
+        void Parse_TileSets(TiXmlElement *TileSetRoot, vector<Tileset > *TileSets);
 
         void Parse_TileLayer(TiXmlElement *TileElement, vector<Layer *> *Layers,
-                             const vector<Tileset *> *TileSets);
+                             const vector<Tileset > *TileSets);
 
         int tile_size;
         int height, width;

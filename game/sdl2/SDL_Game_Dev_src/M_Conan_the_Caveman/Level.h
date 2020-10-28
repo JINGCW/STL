@@ -30,7 +30,7 @@ MCC_begin
 
         void update();
 
-        vector<Tileset *> *get_tilesets();
+        vector<Tileset > *get_tilesets();
 
         vector<Layer *> *get_layers();
 
@@ -38,7 +38,7 @@ MCC_begin
         Level();
         friend class LevelParser;
 
-        vector<Tileset *> o_tilesets;
+        vector<Tileset > o_tilesets;
         vector<Layer *> o_layers;
     };
 
