@@ -79,4 +79,75 @@ static const int TIXML2_PATCH_VERSION = 0;
 #define TINYXML2_MINOR_VERSION 0
 #define TINYXML2_PATCH_VERSION 0
 
+static const int TINYXML2_MAX_ELEMENT_DEPTH = 100;
+
+namespace tinyxml2 {
+    /*
+     A class that wraps string. Normally stores the start and end
+     pointers into the XML file itself, and will apply normalization
+     and entity translation if actually read. Can also store (and memory
+     manage) a traditional char[]
+
+     Isn't clear why TINYXML2_LIB is needed; but seems to fix #719
+     */
+    class TINYXML2_LIB StrPair {
+    public:
+        enum {
+            NEEDS_ENTITY_PROCESSING = 0x01,
+            NEEDS_NEWLINE_NORMALIZATION = 0x02,
+            NEEDS_WHITESPACE_COLLAPSING = 0x04,
+
+            TEXT_ELEMENT = NEEDS_ENTITY_PROCESSING | NEEDS_NEWLINE_NORMALIZATION,
+            TEXT_ELEMENT_LEAVE_ENTITIES = NEEDS_NEWLINE_NORMALIZATION,
+            ATTRIBUTE_NAME = 0,
+            ATTRIBUTE_VALUE = NEEDS_ENTITY_PROCESSING | NEEDS_NEWLINE_NORMALIZATION,
+            ATTRIBUTE_VALUE_LEAVE_ENTITIES = NEEDS_NEWLINE_NORMALIZATION,
+            COMMENT = NEEDS_NEWLINE_NORMALIZATION
+        };
+
+        StrPair():_flags(0),_start(nullptr),_end(nullptr){}
+
+        ~StrPair();
+
+        void Set(char *start,char *end,int flags)
+        {
+            TIXMLASSERT(start);
+            TIXMLASSERT(end);
+            Reset();
+            _start = start;
+            _end = end;
+            _flags = flags | NEEDS_FLUSH;
+        }
+
+        const char *GetStr();
+
+        bool Empty()const
+        {
+            return _start == _end;
+        }
+
+        void SetInternedStr(const char *str)
+        {
+            Reset();
+            _start = const_cast<char *>(str);
+        }
+
+        void Reset();
+    private:
+        void CollapseWhitespace();
+
+        enum {
+            NEEDS_FLUSH = 0x100,
+            NEEDS_DELETE = 0x200
+        };
+
+        int _flags;
+        char *_start;
+        char *_end;
+
+        StrPair(const StrPair &other);// not support
+        void operator=(const StrPair &other);// not support
+    };
+}
+
 #endif //STANDARD_TEMPLATE_LIBRARIES_TIXML_H

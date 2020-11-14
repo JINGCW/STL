@@ -24,6 +24,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_subdirectory(sdl2game)
 add_subdirectory(mario)
 add_subdirectory(fmod_api_core_ex)
+add_subdirectory(XML/TiXML)
 
 file(GLOB GAMES_SRCS
 #        "./*.cpp"
