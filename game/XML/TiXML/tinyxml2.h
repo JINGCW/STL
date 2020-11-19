@@ -132,6 +132,15 @@ namespace tinyxml2 {
             _start = const_cast<char *>(str);
         }
 
+        void SetStr(const char *str, int flags = 0);
+
+        char *ParseText(char *in, const char *endTag,
+                        int strFlags, int *curLineNumPtr);
+
+        char *ParseName(char *in);
+
+        void TransferTo(StrPair *other);
+
         void Reset();
     private:
         void CollapseWhitespace();
@@ -146,7 +155,7 @@ namespace tinyxml2 {
         char *_end;
 
         StrPair(const StrPair &other);// not support
-        void operator=(const StrPair &other);// not support
+        void operator=(const StrPair &other);// not support, use TransferTo()
     };
 }
 
